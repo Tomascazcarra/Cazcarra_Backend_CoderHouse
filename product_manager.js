@@ -44,16 +44,16 @@ export default class ProductManager {
     
     updateProduct(id, producto) {
         var productos = this.getProducts()
-        const index = productos.findIndex(p => p.id === id);
+        const index = productos.findIndex(p => p.id == id);
         if (index == -1) {
             throw new Error("Producto no encontrado.");
         }
         else {
-            const updatedProduct = {
-                id: id,
-                ...producto
-            };
-            productos[index] = updatedProduct
+            const productToUpdate = productos[index]
+            for(let attribute in producto){
+                productToUpdate[attribute] = producto[attribute];
+            }
+            productos[index] = productToUpdate
             fs.writeFileSync(this.path, JSON.stringify(productos))
         }
     }

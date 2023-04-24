@@ -6,8 +6,7 @@ const app = express();
 app.get("/products/:pid",(req,res)=>{
     var idProduct = req.params.pid;
     var pm = new ProductManager("./productos.json");
-    var products = pm.getProducts();
-    const product = products.find(u=>u.id==idProduct);
+    const product = pm.getProductById(idProduct);
     if (!product) return res.send("Producto no encontrado");
     else return res.send(product);
 });

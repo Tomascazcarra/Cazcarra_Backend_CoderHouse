@@ -38,10 +38,11 @@ export default class ProductManager {
 
     getProductById(id) {
         var productos = this.getProducts();
-        const product = productos.find(p => p.id === id);
+        const product = productos.find(p => p.id == id);
+        console.log(product)
 
         if (!product) {
-            throw new Error("Producto no encontrado.");
+            return null
         }
         else {
             return product;

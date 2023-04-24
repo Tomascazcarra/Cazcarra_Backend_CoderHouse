@@ -39,14 +39,7 @@ export default class ProductManager {
     getProductById(id) {
         var productos = this.getProducts();
         const product = productos.find(p => p.id == id);
-        console.log(product)
-
-        if (!product) {
-            return null
-        }
-        else {
-            return product;
-        }
+        return product;
     }
     
     updateProduct(id, producto) {

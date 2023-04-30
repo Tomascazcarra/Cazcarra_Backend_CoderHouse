@@ -3,26 +3,26 @@ import CartManager from "../../cart_manager.js";
 const router = Router();
 
 
-router.post("/", (req, res)=>{
+router.post("/", async (req, res)=>{
     const products = req.body;
-    var cm = new CartManager("./carrito.json");
-    cm.addCart(products)
+    let cm = new CartManager("./carrito.json");
+    await cm.addCart(products)
     res.send({status:"success", message:"carrito creado"});
 });
 
-router.get("/:cid", (req, res)=>{
-    var cid = parseInt(req.params.cid)
-    var cm = new CartManager("./carrito.json");
-    var products = cm.getProductsFromCart(cid);
+router.get("/:cid", async (req, res)=>{
+    let cid = parseInt(req.params.cid)
+    let cm = new CartManager("./carrito.json");
+    let products = await cm.getProductsFromCart(cid);
     if (!products) return res.status(404).send({status: "error", error: "carrito vacio"});
     else return res.send(products);
 });
 
-router.post("/:cid/product/:pid", (req, res)=>{
-    var cid = parseInt(req.params.cid)
-    var pid = parseInt(req.params.pid)
-    var cm = new CartManager("./carrito.json");
-    cm.addProductToCart(cid, pid)
+router.post("/:cid/product/:pid", async (req, res)=>{
+    let cid = parseInt(req.params.cid)
+    let pid = parseInt(req.params.pid)
+    let cm = new CartManager("./carrito.json");
+    await cm.addProductToCart(cid, pid)
     res.send({status:"success", message:"producto agregado al carrito"});
 });
 

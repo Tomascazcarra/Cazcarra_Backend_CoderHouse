@@ -5,45 +5,44 @@ export default class ProductManager {
         this.path = path;
     };
 
-    generateId() {
-        var productos = this.getProducts()
+    generateId = async() => {
+        let productos = await this.getProducts()
         if (productos.length == 0) {
             return 1
         };
         return productos[productos.length - 1].id + 1;
     };
 
-    getProducts() {
+    getProducts = async() =>{
         if(fs.existsSync(this.path)){
-            var productos = fs.readFileSync(this.path, "utf-8")
-            productos = JSON.parse(productos)
+            let data = await fs.promises.readFile(this.path, "utf-8")
+            let productos = JSON.parse(data)
+            return productos
         }
-        else{ productos = []
-        }
-        return productos;
+        return [];
     };
 
-    addProduct(product) {
-        var productos = this.getProducts()
+    addProduct = async(product)  => {
+        let productos = await this.getProducts()
         if (productos.some(p => p.code === product.code)) {
             throw new Error("El código del producto ya existe.");
         };
         const newProduct = {
-            id: this.generateId(),
+            id: await this.generateId(),
             ...product
         };
         productos.push(newProduct);
-        fs.writeFileSync(this.path, JSON.stringify(productos))
+        await fs.promises.writeFile(this.path, JSON.stringify(productos))
     };
 
-    getProductById(id) {
-        var productos = this.getProducts();
+    getProductById = async(id) => {
+        let productos = await this.getProducts();
         const product = productos.find(p => p.id == id);
         return product;
     }
     
-    updateProduct(id, producto) {
-        var productos = this.getProducts()
+    updateProduct = async(id, producto) => {
+        let productos = await this.getProducts()
         const index = productos.findIndex(p => p.id == id);
         if (index == -1) {
             throw new Error("Producto no encontrado.");
@@ -54,26 +53,26 @@ export default class ProductManager {
                 productToUpdate[attribute] = producto[attribute];
             }
             productos[index] = productToUpdate
-            fs.writeFileSync(this.path, JSON.stringify(productos))
+            await fs.promises.writeFile(this.path, JSON.stringify(productos))
         }
     }
 
-    deleteProduct(id) {
-        var productos = this.getProducts();
+    deleteProduct = async(id) => {
+        let productos = await this.getProducts();
         const product = productos.find(p => p.id == id);
         if (!product) {
             throw new Error("Producto no encontrado.");
         }
         else {
             productos = productos.filter(producto => producto.id != product.id)
-            fs.writeFileSync(this.path, JSON.stringify(productos))
+            await fs.promises.writeFile(this.path, JSON.stringify(productos))
         }
     }
 };
 
 /*
-var filepath = "productos.json";
-var pm = new ProductManager(filepath);
+let filepath = "productos.json";
+let pm = new ProductManager(filepath);
 const producto1 = {title:"producto prueba1", description:"este es un producto prueba", price:200, thumbnail:"Sin imagen", code:"abc1", stock:25}
 pm.addProduct(producto1);
 const producto2 = {title:"producto prueba2", description:"este es un producto prueba", price:550, thumbnail:"Sin imagen", code:"abc12", stock:1}

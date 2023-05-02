@@ -11,7 +11,7 @@ import {productos} from "./routes/views-routes.js";
 const app = express();
 app.use(express.json());
 app.use("/api/products", productsRoutes)
-app.use("/api/cart", cartRoutes)
+app.use("/api/carts", cartRoutes)
 app.use("/", viewsRoutes)
 app.use(express.static(`${__dirname}/public`))
 

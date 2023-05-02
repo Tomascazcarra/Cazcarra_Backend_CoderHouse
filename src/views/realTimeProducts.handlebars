@@ -1,0 +1,32 @@
+<h1>Crear producto</h1>
+<div> 
+    <form id="crearProducto">
+        <label for="name">Nombre:</label>
+            <input id="name" type="text" name="name">
+            <label for="quantity">Cantidad:</label>
+            <input id="quantity" type="text" name="quantity">
+        <input type="submit" value="Crear producto">
+    </form>
+</div>
+<br>
+<h1>Borrar producto</h1>
+<div> 
+    <form id="borrarProducto">
+        <label for="name">Nombre:</label>
+            <input id="name_delete" type="text" name="name">
+        <input type="submit" value="Borrar producto">
+    </form>
+    
+</div>
+<div> 
+    <h1>
+        Lista de productos:
+    </h1>
+    <ul id="logs">
+    </ul>
+</div>
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/home.js"></script>

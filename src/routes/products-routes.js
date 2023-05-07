@@ -26,6 +26,8 @@ router.post("/", async (req,res)=>{
     const product = req.body;
     let pm = new ProductManager("./productos.json");
     await pm.addProduct(product);
+    const productos = await pm.getProducts();
+    req.io.emit("logs", productos);
     res.send({status:"success", message:"producto creado"});
 });
 
@@ -34,6 +36,8 @@ router.put("/:pid", async (req,res)=>{
     const product = req.body;
     let pm = new ProductManager("./productos.json");
     await pm.updateProduct(idProduct, product);
+    const productos = await pm.getProducts();
+    req.io.emit("logs", productos);
     res.send({status:"success", message:"producto actualizado"});
 })
 
@@ -41,6 +45,8 @@ router.delete("/:pid", async (req,res)=>{
     let idProduct = req.params.pid;
     let pm = new ProductManager("./productos.json");
     await pm.deleteProduct(idProduct);
+    const productos = await pm.getProducts();
+    req.io.emit("logs", productos);
     res.send({status:"success", message:"producto eliminado"});
 })
 

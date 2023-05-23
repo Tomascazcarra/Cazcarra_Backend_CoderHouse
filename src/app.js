@@ -1,13 +1,20 @@
 import express, { response } from "express";
-import productsRoutes from "./routes/products-routes.js";
-import cartRoutes from "./routes/cart-routes.js";
+import mongoose from "mongoose";
+import productsRoutes from "./routes/fileSystem/products-routes.js";
+import cartRoutes from "./routes/fileSystem/cart-routes.js";
+import chatRoutes from "./routes/fileSystem/chat-routes.js"
 import viewsRoutes from "./routes/views-routes.js";
+import cartsRoutesMongo from "./routes/mongo/cart-mongo.js";
+import productsRoutesMongo from "./routes/mongo/products-mongo.js";
 import handlebars from "express-handlebars";
+import registerChatHandler from "./dao/listeners/chatHandler.js"
 import __dirname from "./utils.js";
 import { Server } from "socket.io";
 
 const app = express();
-const server = app.listen(8080,()=>console.log("listening on PORT 8080"));
+const connection = mongoose.connect("mongodb+srv://toto:123@cluster0.shnasqm.mongodb.net/?retryWrites=true&w=majority")
+const PORT = process.env.PORT||8080;
+const server = app.listen(PORT,()=>console.log(`listening on ${PORT}`));
 const io = new Server(server);
 
 app.use((req,res,next)=>{
@@ -16,17 +23,27 @@ app.use((req,res,next)=>{
 })
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-app.use("/api/products", productsRoutes)
-app.use("/api/carts", cartRoutes)
-app.use("/", viewsRoutes)
-app.use(express.static(`${__dirname}/public`))
+app.use(express.static(`${__dirname}/public`));
+app.use("/api/products", productsRoutesMongo);
+app.use("/api/carts", cartsRoutesMongo);
 
+
+app.use("/", viewsRoutes);
+app.use ("/chat", chatRoutes);
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "handlebars");
 
-
-io.on("connection", socket => {
+const messages = [];
+io.on("connection",socket =>{
     console.log("nuevo cliente conectado")
-
-})
+    socket.emit("logs",messages)
+    socket.on("message",data=>{
+        console.log(data)
+        messages.push(data);
+        io.emit("logs",messages)
+    });
+    socket.on("authenticated", data=>{
+        socket.broadcast.emit("newUserConected", data)
+    })
+});

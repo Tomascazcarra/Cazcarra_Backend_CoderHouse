@@ -1,8 +1,12 @@
 import { Router } from "express";
-import ProductManager from "../../product_manager.js";
+import ProductManager from "../dao/fileSystem/managers/product_manager.js";
+import productsMongoManager from "../dao/mongo/managers/products-manager.js";
 
 const router = Router();
+const productsService = new productsMongoManager();
 
+/*
+// Home utilizando fileSystem 
 router.get("/", async(req, res)=>{
     let pm = new ProductManager("./productos.json");
     const productos = await pm.getProducts();
@@ -10,9 +14,17 @@ router.get("/", async(req, res)=>{
         productos: productos
     });
 });
+*/
+
+router.get("/", async(req, res)=>{
+    const products = await productsService.getProducts();
+    res.render("productsmongo", {products})
+});
+
 
 router.get("/realtimeproducts", (req, res)=>{
     res.render("realTimeProducts");
 });
+
 
 export default router;

@@ -36,13 +36,7 @@ app.set("view engine", "handlebars");
 
 const messages = [];
 io.on("connection",socket =>{
-    console.log("nuevo cliente conectado")
-    socket.emit("logs",messages)
-    socket.on("message",data=>{
-        console.log(data)
-        messages.push(data);
-        io.emit("logs",messages)
-    });
+    registerChatHandler(io, socket)
     socket.on("authenticated", data=>{
         socket.broadcast.emit("newUserConected", data)
     })

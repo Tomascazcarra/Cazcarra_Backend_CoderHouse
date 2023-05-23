@@ -1,0 +1,18 @@
+<div>
+    <h1>Carritos registrados en MONGO</h1>
+    {{#each carts}}
+    <div>
+        <p> Carrito id:
+            {{this._id}}
+        </p>
+        {{#each products}}
+        <p> Producto id:
+            {{this.product_id}}
+        </p>
+        <p> Cantidad:
+            {{this.quantity}}
+        </p>
+        {{/each}}
+    </div>
+    {{/each}}
+</div>

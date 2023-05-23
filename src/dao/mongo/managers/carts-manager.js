@@ -14,8 +14,8 @@ export default class cartsMongoManager{
     deleteCarts = (id) => {
         return cartsModel.findByIdAndDelete(id)
     }
-    addProductToCart = (cid, pid) =>{
-        const cart = cartsModel.findOne({_id: cid})
+    addProductToCart = async (cid, pid) =>{
+        const cart = await cartsModel.findOne({_id: cid})
         let productIndex = -1;
         if (cart.products){
             productIndex = cart.products.findIndex(p => p.product_id == pid);            
@@ -30,6 +30,6 @@ export default class cartsMongoManager{
         else {
            cart.products[productIndex] = {product_id:pid, quantity: cart.products[productIndex].quantity+1}
         }
-        cartsModel.findByIdAndUpdate(cid,{products: cart.products})
+        return cartsModel.findByIdAndUpdate(cid,{products: cart.products})
     }
 }

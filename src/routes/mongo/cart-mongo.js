@@ -31,7 +31,7 @@ router.delete("/:cid", async(req,res)=>{
 router.post("/:cid/product/:pid", async (req, res)=>{
     let cid = req.params.cid;
     let pid = req.params.pid;
-    cartsService.addProductToCart(cid, pid)
+    const result = await cartsService.addProductToCart(cid, pid)
     res.send({status:"success", message:"producto agregado al carrito"});
 });
 

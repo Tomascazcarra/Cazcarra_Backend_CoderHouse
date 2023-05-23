@@ -26,8 +26,6 @@ app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 app.use("/api/products", productsRoutesMongo);
 app.use("/api/carts", cartsRoutesMongo);
-
-
 app.use("/", viewsRoutes);
 app.use ("/chat", chatRoutes);
 app.engine("handlebars", handlebars.engine());

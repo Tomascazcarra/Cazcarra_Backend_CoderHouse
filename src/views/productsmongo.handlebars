@@ -14,6 +14,23 @@
         <p> Stock disponible:
             {{this.stock}}
         </p>
+        <p> Categoria:
+            {{this.category}}
+        </p>
+        <a href="/carts"><button>agregar a carrito</button></a> 
     </div>
+    <br>
     {{/each}}
+    <br>
+    <div>
+    {{#if hasPrevPage}}
+        <a href="/products?page={{prevPage}}"><button>Anterior</button></a>
+    {{/if}}
+
+    {{page}}
+
+    {{#if hasNextPage}}
+        <a href="/products?page={{nextPage}}"><button>Siguiente</button></a>
+    {{/if}}
+    </div>
 </div>

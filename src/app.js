@@ -10,9 +10,16 @@ import handlebars from "express-handlebars";
 import registerChatHandler from "./dao/listeners/chatHandler.js"
 import __dirname from "./utils.js";
 import { Server } from "socket.io";
+import productsModel from "./dao/mongo/models/products.js";
 
 const app = express();
 const connection = mongoose.connect("mongodb+srv://toto:123@cluster0.shnasqm.mongodb.net/?retryWrites=true&w=majority")
+
+//const info = await productsModel.find({title:"nuevo produto mongo 2"}).explain("executionStats");
+//console.log(info);
+
+
+
 const PORT = process.env.PORT||8080;
 const server = app.listen(PORT,()=>console.log(`listening on ${PORT}`));
 const io = new Server(server);

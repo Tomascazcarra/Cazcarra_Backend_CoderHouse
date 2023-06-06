@@ -1,5 +1,11 @@
 <div>
-    <h1>Productos registrados en MONGO</h1>
+    <h1>Bienvenido, {{user.name}}.</h1>
+    <h2>Su rol es: {{user.role}}.</h2>
+</div>
+
+
+<div>
+    <h2>Estos son los productos registrados en MONGO</h2>
     {{#each products}}
     <div>
         <p> Titulo:
@@ -33,4 +39,10 @@
         <a href="/products?page={{nextPage}}"><button>Siguiente</button></a>
     {{/if}}
     </div>
+    <br>
+    <div>
+        <button id="boton_logout">Logout</button>
+    </div>
 </div>
+
+<script src="js/product.js"></script>

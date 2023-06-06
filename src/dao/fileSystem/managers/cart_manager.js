@@ -47,7 +47,6 @@ export default class CartManager {
         let carts = await this.getCarts();
         let cartIndex = carts.findIndex(c => c.id == cid);
         let products = await this.getProductsFromCart(cid);
-        console.log(products)
         let productIndex = products.findIndex(p => p.product == pid);
         
         if(productIndex==-1) {

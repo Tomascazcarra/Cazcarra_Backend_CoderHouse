@@ -56,8 +56,7 @@ export default class cartsMongoManager{
         let productIndex = -1;
         
         if (cart.products){
-            productIndex = cart.products.findIndex(p => p.product._id === pid);    
-            console.log(pid)        
+            productIndex = cart.products.findIndex(p => p.product._id == pid);        
         }
         else {
             cart.products = []
@@ -66,7 +65,6 @@ export default class cartsMongoManager{
         if(productIndex>-1) {
             cart.products[productIndex] = {product:pid, quantity: quantity}
         }   
-        console.log(cart.products)
         return cartsModel.findByIdAndUpdate(cid,{products: cart.products})
     }
     updateProductsFromCart = async(cid,products) =>{

@@ -55,7 +55,6 @@ router.put("/:cid/products/:pid", async(req, res) =>{
     let cid = req.params.cid;
     let pid = req.params.pid;
     const {quantity} = req.body;
-    console.log(quantity)
     const result = await cartsService.updateQuantityFromProduct(cid, pid, quantity)
     res.send({status: "success"})
 }) 

@@ -11,7 +11,9 @@ import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import sessionsRouter from "./routes/mongo/session-mongo.js"
+import sessionsRouter from "./routes/mongo/session-mongo.js";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 const app = express();
 const connection = mongoose.connect("mongodb+srv://toto:123@cluster0.shnasqm.mongodb.net/?retryWrites=true&w=majority")
@@ -66,6 +68,8 @@ app.get("/login", (req,res)=>{
     res.send("login success");
 })
 */
+app.use(passport.initialize());
+initializePassport();
 
 app.use((req,res,next)=>{
     req.io = io;

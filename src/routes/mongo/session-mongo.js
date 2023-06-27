@@ -1,13 +1,13 @@
 import { Router } from "express";
-import passport from "passport";
+import { passportCall } from "../../middlewares/auth.js"
 
 const router = Router();
 
-router.get("/github", passport.authenticate("github"),(req,res)=>{
+router.get("/github", passportCall("github"),(req,res)=>{
 
 })
 
-router.get("/githubcallback", passport.authenticate("github"), (req,res)=>{
+router.get("/githubcallback", passportCall("github"), (req,res)=>{
     const user = req.user;
     req.session.user = {
         id: user.id,
@@ -18,8 +18,7 @@ router.get("/githubcallback", passport.authenticate("github"), (req,res)=>{
     res.send({status:"success", message:"Logueado con GITHUB"})
 })
 
-
-router.post("/register", passport.authenticate("register",{failureRedirect:"/api/session/registerFail"}), async(req, res)=>{
+router.post("/register", passportCall("register",{failureRedirect:"/api/session/registerFail"}), async(req, res)=>{
     res.send({status:"success", message:"registered"})
 })
 
@@ -28,7 +27,7 @@ router.get("registerFail",(req,res)=>{
     res.status(400).send({status:"error", error: req.session.messages})
 })
 
-router.post("/login",passport.authenticate("login",{failureRedirect:"/api/session/loginFail"}), async(req, res)=>{
+router.post("/login", passportCall("login"), async(req, res)=>{
     req.session.user = {
         name: req.user.name,
         email: req.user.email,
@@ -37,9 +36,9 @@ router.post("/login",passport.authenticate("login",{failureRedirect:"/api/sessio
     }
     return res.send({status:"success"});
 })
-router.get("loginFail",(req,res)=>{
-    console.log(req.session.messages);
-    res.status(400).send({status:"error", error: req.session.messages})
+
+router.get("/current", async (req, res)=>{
+    res.send({status:"success", message: req.session.user})
 })
 
 export default router;

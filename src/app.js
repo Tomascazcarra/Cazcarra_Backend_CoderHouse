@@ -22,7 +22,7 @@ const server = app.listen(PORT,()=>console.log(`listening on ${PORT}`));
 const io = new Server(server);
 
 
-app.use(cookieParser())
+//app.use(cookieParser("ecommerce"))
 app.use(session({
     store: new MongoStore ({
         mongoUrl:"mongodb+srv://toto:123@cluster0.shnasqm.mongodb.net/?retryWrites=true&w=majority",
@@ -70,6 +70,8 @@ app.get("/login", (req,res)=>{
 */
 app.use(passport.initialize());
 initializePassport();
+app.use(passport.session());
+
 
 app.use((req,res,next)=>{
     req.io = io;

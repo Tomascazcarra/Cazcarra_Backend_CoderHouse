@@ -3,21 +3,27 @@ import local from "passport-local"
 import userModel from "../dao/mongo/models/user.js"
 import { createHash, validatedPassword } from "../utils.js";
 import GithubStrategy from "passport-github2"
-
+import cartsMongoManager from "../dao/mongo/managers/carts-manager.js"
 
 const LocalStrategy = local.Strategy;
 
 const initializePassport = () => {
     passport.use("register", new LocalStrategy({passReqToCallback:true, usernameField: "email"},async(req,email,password,done)=>{
         try{
-            const{first_name, last_name} = req.body;
+            const{first_name, last_name, age} = req.body;
             const exists = await userModel.findOne({email});
             if (exists) return done(null, false,{message: "El usuario ya existe"})
             const hashedPassword = await createHash(password);
+            // Creo un carrito, me traigo el ID y se lo pongo al atributo cart.
+            const cartsService = new cartsMongoManager()
+            const cart = {"products":[]};
+            const cartId = await cartsService.createCarts(cart)
             const user = {
-                first_name,
-                last_name,
-                email,
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                age: age,
+                cart: cartId,
                 password: hashedPassword
             }
             const result = await userModel.create(user);
@@ -28,8 +34,6 @@ const initializePassport = () => {
     }))
 
     passport.use("login", new LocalStrategy({usernameField:"email"},async(email, password, done)=>{
-    
-    
     if(email === "adminCoder@coder.com" && password==="adminCod3r123"){
         const user ={
             id: 0,
@@ -50,7 +54,9 @@ const initializePassport = () => {
         id: user._id,
         name: `${user.first_name} ${user.last_name}`,
         email: user.email,
-        role: user.role
+        role: user.role,
+        age: user.age,
+        cart: user.cart
     }
     return done(null, user);
     }))
@@ -82,13 +88,12 @@ passport.use("github", new GithubStrategy({
 }
 ))
 
-passport.serializeUser(function(user,done){
-    done(null,user.id)
+passport.serializeUser(function (user,done){
+    return done(null,user.id)
 })
-passport.deserializeUser(async function(id, done){
+passport.deserializeUser(async function (id, done){
     const user = await userModel.findOne({_id: id});
-    done(null, user)
+    return done(null, user)
 })
-
 
 export default initializePassport;

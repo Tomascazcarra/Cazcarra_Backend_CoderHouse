@@ -1,3 +1,5 @@
+import passport from "passport";
+
 export const privacy = (privacyType) =>{
     return (req,res, next) => {
         const {user} = req.session;
@@ -11,4 +13,15 @@ export const privacy = (privacyType) =>{
                 else res.redirect("/products")
         }
     };
+}
+
+export const passportCall =(strategy, options={}) =>{
+    return async(req,res,next) =>{
+        passport.authenticate(strategy, (error,user,info) =>{
+            if(error) return next(error);
+            if(!user) res.status(400).send({status:"error", error})
+            req.user = user;
+            next();
+        })(req,res,next);
+    }
 }

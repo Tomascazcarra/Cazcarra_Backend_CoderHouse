@@ -20,8 +20,11 @@ export const passportCall =(strategy, options={}) =>{
         passport.authenticate(strategy, (error,user,info) =>{
             if(error) return next(error);
             if(!user) res.status(400).send({status:"error", error})
-            req.user = user;
-            next();
+            req.logIn(user, async (loginError) => {
+                if (loginError) return next(loginError);
+                req.user = user
+                next();
+              });
         })(req,res,next);
     }
 }

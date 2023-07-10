@@ -22,7 +22,7 @@ export default class ProductManager {
         return [];
     };
 
-    addProduct = async(product)  => {
+    createProducts = async(product)  => {
         let productos = await this.getProducts()
         if (productos.some(p => p.code === product.code)) {
             throw new Error("El código del producto ya existe.");
@@ -41,7 +41,7 @@ export default class ProductManager {
         return product;
     }
     
-    updateProduct = async(id, producto) => {
+    updateProducts = async(id, producto) => {
         let productos = await this.getProducts()
         const index = productos.findIndex(p => p.id == id);
         if (index == -1) {
@@ -57,7 +57,7 @@ export default class ProductManager {
         }
     }
 
-    deleteProduct = async(id) => {
+    deleteProducts = async(id) => {
         let productos = await this.getProducts();
         const product = productos.find(p => p.id == id);
         if (!product) {

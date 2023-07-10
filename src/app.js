@@ -8,66 +8,29 @@ import handlebars from "express-handlebars";
 import registerChatHandler from "./dao/listeners/chatHandler.js"
 import __dirname from "./utils.js";
 import { Server } from "socket.io";
-import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import sessionsRouter from "./routes/mongo/session-mongo.js";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
+import config from "./config/config.js"
 
 const app = express();
-const connection = mongoose.connect("mongodb+srv://toto:123@cluster0.shnasqm.mongodb.net/?retryWrites=true&w=majority")
-const PORT = process.env.PORT||8080;
+const PORT = config.app.PORT
 const server = app.listen(PORT,()=>console.log(`listening on ${PORT}`));
 const io = new Server(server);
+const connection = mongoose.connect(config.mongo.URL)
 
-
-//app.use(cookieParser("ecommerce"))
 app.use(session({
     store: new MongoStore ({
-        mongoUrl:"mongodb+srv://toto:123@cluster0.shnasqm.mongodb.net/?retryWrites=true&w=majority",
+        mongoUrl:config.mongo.URL,
         ttl:3600
     }),
     secret:"ecommerce",
     resave: true,
     saveUninitialized:true
 }))
-/*
-app.get("/setCookie", (req,res) =>{
-    res.cookie("ecommerceCookie", "Primer cookie", {maxAge:10000}).send("Cookie")
-})
-app.get("/getCookies", (req,res) =>{
-    res.send(req.cookies.ecommerceCookie);
-})
-app.get("/deleteCookie", (req,res)=>{
-    res.clearCookie("ecommerceCookie").send("Cookie removed")
-})
-app.get("/session", (req,res) =>{
-    if (req.session.counter) {
-        req.session.counter++,
-        res.send(`se visito el sitio ${req.session.counter} veces`)
-    } else {
-        req.session.counter = 1;
-        res.send("bienvenido")
-    }
-})
-app.get("/logout", (req,res)=>{
-    req.session.destroy(err =>{
-        if(!err) res.send("Logout ok")
-        else res.send({status:"logout error", body: err})
-    })
-})
-app.get("/login", (req,res)=>{
-    const {username, password} = req.query;
 
-    if (username !== "toto" || password !== "toto123") {
-        return res.send("login failed")
-    }
-    req.session.user = username;
-    req.session.admin = true;
-    res.send("login success");
-})
-*/
 app.use(passport.initialize());
 initializePassport();
 app.use(passport.session());

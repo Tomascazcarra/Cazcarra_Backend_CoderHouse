@@ -4,6 +4,7 @@ import userModel from "../dao/mongo/models/user.js"
 import { createHash, validatedPassword } from "../utils.js";
 import GithubStrategy from "passport-github2"
 import cartsMongoManager from "../dao/mongo/managers/carts-manager.js"
+import config from "./config.js";
 
 const LocalStrategy = local.Strategy;
 
@@ -34,7 +35,7 @@ const initializePassport = () => {
     }))
 
     passport.use("login", new LocalStrategy({usernameField:"email"},async(email, password, done)=>{
-    if(email === "adminCoder@coder.com" && password==="adminCod3r123"){
+    if(email === config.auth.ADMIN_EMAIL && password===config.auth.ADMIN_PASSWORD){
         const user ={
             id: 0,
             name: `Admin`,
@@ -65,7 +66,7 @@ const initializePassport = () => {
 passport.use("github", new GithubStrategy({
     clientID: "Iv1.6c46f7035d81137f",
     clientSecret: "c66ab664c03c355a046ed3c649d39d6c161b91d7",
-    callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+    callbackURL: `http://localhost:${config.app.PORT}/api/sessions/githubcallback`,
 
 }, async(accessToken, refreshToken, profile, done)=>{
     try{

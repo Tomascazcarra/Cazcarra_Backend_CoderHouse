@@ -22,7 +22,7 @@ export default class CartManager {
         return carts[carts.length - 1].id + 1;
     };
     
-    addCart = async(products) => {
+    createCarts = async(products) => {
         let carts = await this.getCarts()
         const newCart = {
             id: await this.generateId(),

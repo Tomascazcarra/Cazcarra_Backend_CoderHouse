@@ -59,16 +59,4 @@ export default class CartsController{
         res.send({status: "success"})
     }
 
-    renderGetCartsBy = async (req, res) =>{
-        let cid = req.params.cid
-        const carts = await cartsService.getCartsBy({_id: cid});
-        const result = carts["products"]
-        res.render("cart", {result})
-    }
-    
-    renderGetCarts = async (req, res) =>{
-        const carts = await cartsService.getCarts();
-        res.render("carts", {carts})
-    }
-
 }

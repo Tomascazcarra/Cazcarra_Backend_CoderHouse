@@ -1,38 +1,26 @@
 import { Router } from "express";
 import { privacy } from "../middlewares/auth.js";
-import CartsController from "../controllers/cart-controller.js";
-import ProductsController from "../controllers/product-controller.js";
+import ViewsController from "../controllers/views-controller.js";
 
-const productsController = new ProductsController();
-const cartsController = new CartsController();
+const viewsController = new ViewsController();
 const router = Router();
 
-router.get("/products", privacy("PRIVATE"), productsController.renderGetProducts);
+router.get("/products", privacy("PRIVATE"), viewsController.getProducts);
 
-router.get("/realtimeproducts", productsController.renderRealTimeProducts);
+router.get("/realtimeproducts", viewsController.realTimeProducts);
 
-router.get("/chat" , (req, res)=>{
-    res.render("Chat")
-})
+router.get("/chat" , viewsController.chat)
 
-router.get("/carts", cartsController.renderGetCarts)
+router.get("/carts", viewsController.getCarts)
 
-router.get("/carts/:cid", cartsController.renderGetCartsBy)
+router.get("/carts/:cid", viewsController.getCartsBy)
 
-router.get("/register", privacy("NO_AUTHENTICATED"), (req, res)=>{
-    res.render("register")
-})
+router.get("/register", privacy("NO_AUTHENTICATED"), viewsController.register)
 
-router.get("/login", privacy("NO_AUTHENTICATED"), (req, res)=>{
-    res.render("login")
-})
+router.get("/login", privacy("NO_AUTHENTICATED"), viewsController.login)
 
-router.post("/logout", privacy("PRIVATE"), (req, res)=>{
-    req.session.destroy();
-    return res.send({status:"success"});
-})
-router.get("/", privacy("NO_AUTHENTICATED"), (req, res)=>{
-    res.redirect("login")
-})
+router.post("/logout", privacy("PRIVATE"), viewsController.logout)
+
+router.get("/", privacy("NO_AUTHENTICATED"), viewsController.loginRedirect)
 
 export default router;

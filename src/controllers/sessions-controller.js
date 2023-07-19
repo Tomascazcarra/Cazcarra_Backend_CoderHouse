@@ -1,3 +1,5 @@
+import UserCurrentDTO from "../dto/user/UserCurrentDTO.js";
+
 export default class SessionsController{
 
     gitHubCallBack = async (req, res) =>{
@@ -15,18 +17,19 @@ export default class SessionsController{
         res.send({status:"success", message:"registered"})
     }
 
-    login = async (req, res) =>{
+    login = (req, res) =>{
         req.session.user = {
             name: req.user.name,
             email: req.user.email,
             role: req.user.role,
             id: req.user.id
         }
+        console.log(req.session.user)
         return res.send({status:"success"});
+
     }
 
     current = async (req, res) =>{
-        res.send({status:"success", message: req.user})
+        res.send({status:"success", message: new UserCurrentDTO(req.user)})
     }
-
 }

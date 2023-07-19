@@ -1,9 +1,6 @@
-import ProductService from "../services/product-services.js"
-import productsManager from "../dao/mongo/managers/products-manager.js"
+import { productService } from "../services/repositories.js"
 import productsModel from "../dao/mongo/models/products.js"
 
-const manager = new productsManager()
-const productsService = new ProductService(manager)
 
 export default class ProductsController{
 
@@ -58,13 +55,13 @@ export default class ProductsController{
             stock,
             category
         }
-        const result = await productsService.createProducts(products);
+        const result = await productService.createProducts(products);
         res.sendStatus(201);
     }
 
     getProductsBy = async (req, res) =>{
         const {pid} = req.params;
-        const products = await productsService.getProductsBy({_id: pid});
+        const products = await productService.getProductsBy({_id: pid});
         if(!products) res.status(404).send({status:"error", error: "Producto no encontrado"})
         res.send({status:"success", payload:products})
     }
@@ -72,13 +69,13 @@ export default class ProductsController{
     updateProducts = async (req, res) =>{
         const {pid} = req.params;
         const updateProducts = req.nody;
-        const result = await productsService.updateProducts(pid, updateProducts)
+        const result = await productService.updateProducts(pid, updateProducts)
         res.sendStatus(201);
     }
 
     deleteProducts = async (req, res) =>{
         const {pid} = req.params;
-        const result = await productsService.deleteProducts(pid)
+        const result = await productService.deleteProducts(pid)
         res.send({status:"success"})
     }
 

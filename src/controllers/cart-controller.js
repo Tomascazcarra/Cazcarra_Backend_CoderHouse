@@ -1,25 +1,23 @@
-import CartsService from "../services/cart-services.js"
-import cartsManager from "../dao/mongo/managers/carts-manager.js"
+import { cartService, productService, ticketService } from "../services/repositories.js";
+import crypto from "crypto";
 
-const manager = new cartsManager()
-const cartsService = new CartsService(manager)
 
 export default class CartsController{
     
     getCarts = async (req, res) =>{
-        const carts = await cartsService.getCarts();
+        const carts = await cartService.getCarts();
         res.send({status:"success", payload:carts})
     }
     
     createCart = async (req, res) =>{
         const cart = {"products":[]};
-        const result = await cartsService.createCarts(cart);
+        const result = await cartService.createCarts(cart);
         res.sendStatus(201);
     }
 
     getCartsBy = async (req, res) =>{
         const {cid} = req.params;
-        const carts = await cartsService.getCartsBy({_id: cid});
+        const carts = await cartService.getCartsBy({_id: cid});
         if(!carts) res.status(404).send({status:"error", error: "carrito no encontrado"})
         res.send({status:"success", payload:carts})
     }
@@ -27,21 +25,21 @@ export default class CartsController{
     addProductToCart = async (req, res) =>{
         let cid = req.params.cid;
         let pid = req.params.pid;
-        const result = await cartsService.addProductToCart(cid, pid)
+        const result = await cartService.addProductToCart(cid, pid)
         res.send({status:"success", message:"producto agregado al carrito"});
     }
     
     deleteProductToCart = async (req, res) =>{
         let cid = req.params.cid;
         let pid = req.params.pid;
-        const result = await cartsService.deleteProductFromCart(cid, pid)
+        const result = await cartService.deleteProductFromCart(cid, pid)
         res.send({status:"success"})
     }
 
     updateProductsFromCart = async (req, res) =>{
         let cid = req.params.cid;
         const {products} = req.body;
-        const result = await cartsService.updateProductsFromCart(cid, products)
+        const result = await cartService.updateProductsFromCart(cid, products)
         res.send({status: "success"})
     }
 
@@ -49,14 +47,44 @@ export default class CartsController{
         let cid = req.params.cid;
         let pid = req.params.pid;
         const {quantity} = req.body;
-        const result = await cartsService.updateQuantityFromProduct(cid, pid, quantity)
+        const result = await cartService.updateQuantityFromProduct(cid, pid, quantity)
         res.send({status: "success"})
     }
 
     deleteProductsFromCart = async (req, res) => {
         let cid = req.params.cid;
-        const result = await cartsService.deleteProductsFromCart(cid)
+        const result = await cartService.deleteProductsFromCart(cid)
         res.send({status: "success"})
     }
 
+    purchase = async(req, res, next) =>{
+        
+        let amount = 0;
+        let productosNoComprados = []
+        let cid = req.params.cid;
+        const carts = await cartService.getCartsBy({_id: cid});
+        for(let i = 0; i < carts.products; i++){
+            let product = await productService.getProductsBy({_id: carts.products[i]._id})
+            if(product.stock >= carts.products[i].quantity){
+                product.stock = product.stock-carts.products[i].quantity
+                amount = amount+carts.products[i].quantity
+                await productService.updateProducts(product._id, product)
+                carts.products.splice(i,1)
+            }
+            else{
+                productosNoComprados.push(product._id)
+            }
+        }
+        await cartService.updateProductsFromCart(cid, carts.products)
+
+        const currentDateTime = new Date();
+        const currentDate = currentDateTime.toISOString().slice(0, 10);
+        const currentHour = currentDateTime.getHours();
+        const currentMinutes = currentDateTime.getMinutes();
+        const currentDateTimeString = `${currentDate} ${currentHour}:${currentMinutes}`;
+
+        let code = crypto.randomBytes(16).toString("hex")
+        let ticketInfo = {code:code, purchaseDateTime:currentDateTimeString, amount:amount, purchaser:req.user.email}
+        let ticket = ticketService.createTickets(ticketInfo)
+    }
 }

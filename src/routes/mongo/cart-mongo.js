@@ -1,5 +1,6 @@
 import { Router } from "express";
 import CartsController from "../../controllers/cart-controller.js";
+import { allowUsers } from "../../middlewares/auth.js";
 
 const router = Router();
 const cartsController = new CartsController()
@@ -10,15 +11,17 @@ router.post("/", cartsController.createCart);
 
 router.get("/:cid", cartsController.getCartsBy);
 
-router.post("/:cid/product/:pid", cartsController.addProductToCart);
+router.post("/:cid/product/:pid", allowUsers, cartsController.addProductToCart);
 
-router.delete("/:cid/products/:pid", cartsController.deleteProductToCart);
+router.delete("/:cid/products/:pid", allowUsers, cartsController.deleteProductToCart);
 
-router.put("/:cid", cartsController.updateProductsFromCart)
+router.put("/:cid", allowUsers,cartsController.updateProductsFromCart);
 
-router.put("/:cid/products/:pid", cartsController.updateQuantityFromProduct) 
+router.put("/:cid/products/:pid", allowUsers, cartsController.updateQuantityFromProduct);
 
-router.delete("/:cid", cartsController.deleteProductsFromCart);
+router.delete("/:cid", allowUsers, cartsController.deleteProductsFromCart);
+
+router.post("/:cid/purchase", cartsController.purchase);
 
 
 export default router;

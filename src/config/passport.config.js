@@ -35,15 +35,21 @@ const initializePassport = () => {
     }))
 
     passport.use("login", new LocalStrategy({usernameField:"email"},async(email, password, done)=>{
-    if(email === config.auth.ADMIN_EMAIL && password===config.auth.ADMIN_PASSWORD){
-        const user ={
-            id: 0,
-            name: `Admin`,
-            role: "admin",
-            email: "..."
+        if(email === config.auth.ADMIN_EMAIL && password===config.auth.ADMIN_PASSWORD){
+            const user = {
+                name: `Admin`,
+                role: "admin",
+                email: "adminCoder@coder.com",
+            }
+            const admin = await userModel.findOne({email})
+            if(admin===null){
+                admin = await userModel.create(user);
+            }
+            user.id = admin._id
+            console.log(user)
+            return done(null, user);
         }
-        return done(null, user);
-    }
+
     let user
     user = await userModel.findOne({email});
     if(!user) return done(null, false, {message:"credenciales incorrectas"})

@@ -15,7 +15,7 @@ export const privacy = (privacyType) =>{
     };
 }
 
-export const passportCall =(strategy, options={}) =>{
+export const passportCall = (strategy, options={}) =>{
     return async(req,res,next) =>{
         passport.authenticate(strategy, (error,user,info) =>{
             if(error) return next(error);
@@ -27,4 +27,20 @@ export const passportCall =(strategy, options={}) =>{
               });
         })(req,res,next);
     }
+}
+
+export const allowUsers = async(req,res,next) => {
+    const role = "user"
+    if(req.user.role!=role){
+        return res.status(403).send({status:"error",error:"Fobidden"})
+    }
+    next();
+}
+
+export const allowAdmin = async(req,res,next) => {
+    const role = "admin"
+    if(req.user.role!=role){
+        return res.status(403).send({status:"error",error:"Fobidden"})
+    }
+    next();
 }

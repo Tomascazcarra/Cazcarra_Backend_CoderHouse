@@ -1,4 +1,5 @@
 import productsModel from "../dao/mongo/models/products.js"
+import { cartService } from "../services/repositories.js"
 
 export default class ViewsController{
 
@@ -36,13 +37,13 @@ export default class ViewsController{
 
     getCartsBy = async (req, res) =>{
         let cid = req.params.cid
-        const carts = await cartsService.getCartsBy({_id: cid});
+        const carts = await cartService.getCartsBy({_id: cid});
         const result = carts["products"]
         res.render("cart", {result})
     }
     
     getCarts = async (req, res) =>{
-        const carts = await cartsService.getCarts();
+        const carts = await cartService.getCarts();
         res.render("carts", {carts})
     }
 }

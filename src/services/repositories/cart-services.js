@@ -1,6 +1,3 @@
-
-
-
 export default class CartsService{
     constructor(dao){
         this.dao = dao;
@@ -10,7 +7,7 @@ export default class CartsService{
         return this.dao.getCarts();
     }
     getCartsBy = (params) =>{
-        return this.dao.getCartsBy(params)
+        return this.dao.getCartsBy(params);
     }
     createCarts = (carts) =>{
         return this.dao.createCarts(carts);

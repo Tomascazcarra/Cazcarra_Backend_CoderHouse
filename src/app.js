@@ -1,25 +1,37 @@
 import express, { response } from "express";
 import mongoose from "mongoose";
 import chatRoutes from "./routes/fileSystem/chat-routes.js"
-import viewsRoutes from "./routes/views-routes.js";
-import cartsRoutesMongo from "./routes/mongo/cart-mongo.js";
-import productsRoutesMongo from "./routes/mongo/products-mongo.js";
 import handlebars from "express-handlebars";
 import registerChatHandler from "./dao/listeners/chatHandler.js"
 import __dirname from "./utils.js";
 import { Server } from "socket.io";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import sessionsRouter from "./routes/mongo/session-mongo.js";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
-import config from "./config/config.js"
+import config from "./config/config.js";
+import { Command } from "commander";
+import { setOptions } from "./options.js";
+
+const program = new Command();
+program
+.option("--persistence <persistence>","Valor de persistencia");
+program.parse(process.argv);
+const options = program.opts();
+setOptions(options);
+
+
+const {default: cartsRoutesMongo} = await import("./routes/mongo/cart-mongo.js")
+const {default: productsRoutesMongo} = await import("./routes/mongo/products-mongo.js")
+const {default: sessionsRouter} = await import("./routes/mongo/session-mongo.js")
+const {default: viewsRoutes} = await import("./routes/views-routes.js")
 
 const app = express();
 const PORT = config.app.PORT
 const server = app.listen(PORT,()=>console.log(`listening on ${PORT}`));
 const io = new Server(server);
 const connection = mongoose.connect(config.mongo.URL)
+
 
 app.use(session({
     store: new MongoStore ({

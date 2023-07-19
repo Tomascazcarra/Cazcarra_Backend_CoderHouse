@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { privacy } from "../middlewares/auth.js";
 import ViewsController from "../controllers/views-controller.js";
+import { allowUsers } from "../middlewares/auth.js";
 
 const viewsController = new ViewsController();
 const router = Router();
@@ -9,7 +10,7 @@ router.get("/products", privacy("PRIVATE"), viewsController.getProducts);
 
 router.get("/realtimeproducts", viewsController.realTimeProducts);
 
-router.get("/chat" , viewsController.chat)
+router.get("/chat", allowUsers, viewsController.chat)
 
 router.get("/carts", viewsController.getCarts)
 

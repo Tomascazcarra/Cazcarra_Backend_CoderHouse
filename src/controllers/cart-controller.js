@@ -66,8 +66,8 @@ export default class CartsController{
         for(let i = 0; i < carts.products; i++){
             let product = await productService.getProductsBy({_id: carts.products[i]._id})
             if(product.stock >= carts.products[i].quantity){
-                product.stock = product.stock-carts.products[i].quantity
-                amount = amount+carts.products[i].quantity
+                amount += carts.products[i].quantity*product.price
+                product.stock -= carts.products[i].quantity
                 await productService.updateProducts(product._id, product)
                 carts.products.splice(i,1)
             }
@@ -86,5 +86,13 @@ export default class CartsController{
         let code = crypto.randomBytes(16).toString("hex")
         let ticketInfo = {code:code, purchaseDateTime:currentDateTimeString, amount:amount, purchaser:req.user.email}
         let ticket = ticketService.createTickets(ticketInfo)
+
+        if(productosNoComprados.length > 0){
+            res.send({status: "success", message: `Productos no comprados: ${productosNoComprados}`})
+        }
+        else{
+            res.send({status: "success"})
+        }
+
     }
 }

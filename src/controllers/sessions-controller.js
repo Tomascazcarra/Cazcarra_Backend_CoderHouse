@@ -1,4 +1,7 @@
+import EErrors from "../constants/EErrors.js";
+import { sessionErrorIncompleteValues } from "../constants/session-error.js";
 import UserCurrentDTO from "../dto/user/UserCurrentDTO.js";
+import ErrorService from "../services/error.services.js";
 
 export default class SessionsController{
 
@@ -18,6 +21,15 @@ export default class SessionsController{
     }
 
     login = (req, res) =>{
+
+        const {email,password} =req.session.user;
+
+        if(!email||!password){
+            ErrorService.createError({
+                name:"Login error",
+                cause:sessionErrorIncompleteValues({email,password}),
+                code: EErrors.INCOMPLETE_VALUES
+            })
         req.session.user = {
             name: req.user.name,
             email: req.user.email,
@@ -26,7 +38,7 @@ export default class SessionsController{
         }
         console.log(req.session.user)
         return res.send({status:"success"});
-
+        }
     }
 
     current = async (req, res) =>{

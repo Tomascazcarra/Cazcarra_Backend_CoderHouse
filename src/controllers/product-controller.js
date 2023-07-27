@@ -1,6 +1,9 @@
 import { productService } from "../services/repositories.js"
 import productsModel from "../dao/mongo/models/products.js"
-
+import { generateProduct } from "../mocks/product-mock.js"
+import EErrors from "../constants/EErrors.js";
+import { productErrorIncompleteValues } from "../constants/product-error.js";
+import ErrorService from "../services/error.services.js";
 
 export default class ProductsController{
 
@@ -47,7 +50,13 @@ export default class ProductsController{
 
     createProducts = async (req, res) =>{
         const {title, description, price, stock, category} = req.body;
-        if(!title || !description || !price || !stock || !category) return res.status(400).send({status:"error", error:"faltan campos"})
+        if(!title || !description || !price || !stock || !category){
+            ErrorService.createError({
+                name:"Product creation error",
+                cause:productErrorIncompleteValues(),
+                code: EErrors.INCOMPLETE_VALUES
+            })
+        }
         const products = {
             title,
             description,
@@ -77,6 +86,14 @@ export default class ProductsController{
         const {pid} = req.params;
         const result = await productService.deleteProducts(pid)
         res.send({status:"success"})
+    }
+
+    createMockProducts = async (req, res) =>{
+        const products = []
+        for(let i=0;i<100;i++){
+            products.push(generateProduct())
+        }
+        res.send({status:"success", payload:products})
     }
 
 }

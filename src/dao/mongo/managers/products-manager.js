@@ -17,4 +17,6 @@ export default class productsMongoManager{
     deleteProducts = (id) => {
         return productsModel.findByIdAndDelete(id)
     }
+
+
 }

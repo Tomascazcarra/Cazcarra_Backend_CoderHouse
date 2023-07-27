@@ -7,6 +7,8 @@ const productsController = new ProductsController;
 
 router.get("/", productsController.getProducts)
 
+router.get("/mockingproducts", productsController.createMockProducts)
+
 router.post("/", allowAdmin, productsController.createProducts)
 
 router.get("/:pid", productsController.getProductsBy)

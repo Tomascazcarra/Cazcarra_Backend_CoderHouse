@@ -12,6 +12,8 @@ import initializePassport from "./config/passport.config.js";
 import config from "./config/config.js";
 import { Command } from "commander";
 import { setOptions } from "./options.js";
+import errorHandler from "./middlewares/error.js"
+
 
 const program = new Command();
 program
@@ -32,6 +34,8 @@ const server = app.listen(PORT,()=>console.log(`listening on ${PORT}`));
 const io = new Server(server);
 const connection = mongoose.connect(config.mongo.URL)
 
+
+app.use(errorHandler)
 
 app.use(session({
     store: new MongoStore ({

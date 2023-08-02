@@ -17,6 +17,7 @@ export default class SessionsController{
     }
 
     register = async (req, res) =>{
+        req.logger.debug("Se registro el usuario correctamente")
         res.send({status:"success", message:"registered"})
     }
 
@@ -36,7 +37,7 @@ export default class SessionsController{
             role: req.user.role,
             id: req.user.id
         }
-        console.log(req.session.user)
+        req.logger.debug(req.session.user)
         return res.send({status:"success"});
         }
     }

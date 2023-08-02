@@ -12,6 +12,7 @@ export default class CartsController{
     createCart = async (req, res) =>{
         const cart = {"products":[]};
         const result = await cartService.createCarts(cart);
+        req.logger.debug("Carrito creado correctamente")
         res.sendStatus(201);
     }
 
@@ -26,6 +27,7 @@ export default class CartsController{
         let cid = req.params.cid;
         let pid = req.params.pid;
         const result = await cartService.addProductToCart(cid, pid)
+        req.logger.debug("Producto añadido al carrito correctamente")
         res.send({status:"success", message:"producto agregado al carrito"});
     }
     
@@ -33,6 +35,7 @@ export default class CartsController{
         let cid = req.params.cid;
         let pid = req.params.pid;
         const result = await cartService.deleteProductFromCart(cid, pid)
+        req.logger.debug("Producto eliminado del carrito correctamente")
         res.send({status:"success"})
     }
 

@@ -46,7 +46,6 @@ const initializePassport = () => {
                 admin = await userModel.create(user);
             }
             user.id = admin._id
-            console.log(user)
             return done(null, user);
         }
 
@@ -76,7 +75,6 @@ passport.use("github", new GithubStrategy({
 
 }, async(accessToken, refreshToken, profile, done)=>{
     try{
-        console.log(profile);
         const {name, email} = profile._json;
         const user = await userModel.findOne({ email });
         if(!user) {

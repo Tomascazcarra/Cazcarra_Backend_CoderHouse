@@ -13,6 +13,7 @@ import config from "./config/config.js";
 import { Command } from "commander";
 import { setOptions } from "./options.js";
 import errorHandler from "./middlewares/error.js"
+import attachLogger from "./middlewares/logger.js";
 
 
 const program = new Command();
@@ -27,6 +28,7 @@ const {default: cartsRoutesMongo} = await import("./routes/mongo/cart-mongo.js")
 const {default: productsRoutesMongo} = await import("./routes/mongo/products-mongo.js")
 const {default: sessionsRouter} = await import("./routes/mongo/session-mongo.js")
 const {default: viewsRoutes} = await import("./routes/views-routes.js")
+const {default: logRoutes} = await import("./routes/logger-routes.js")
 
 const app = express();
 const PORT = config.app.PORT
@@ -34,6 +36,7 @@ const server = app.listen(PORT,()=>console.log(`listening on ${PORT}`));
 const io = new Server(server);
 const connection = mongoose.connect(config.mongo.URL)
 
+app.use(attachLogger);
 
 app.use(errorHandler)
 
@@ -59,6 +62,7 @@ app.use((req,res,next)=>{
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
+app.use("/log", logRoutes);
 app.use("/api/products", productsRoutesMongo);
 app.use("/api/carts", cartsRoutesMongo);
 app.use("/", viewsRoutes);

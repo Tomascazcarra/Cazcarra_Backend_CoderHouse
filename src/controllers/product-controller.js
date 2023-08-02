@@ -65,6 +65,7 @@ export default class ProductsController{
             category
         }
         const result = await productService.createProducts(products);
+        req.logger.debug("Producto creado correctamente")
         res.sendStatus(201);
     }
 
@@ -79,12 +80,14 @@ export default class ProductsController{
         const {pid} = req.params;
         const updateProducts = req.nody;
         const result = await productService.updateProducts(pid, updateProducts)
+        req.logger.debug("Producto actualizado correctamente")
         res.sendStatus(201);
     }
 
     deleteProducts = async (req, res) =>{
         const {pid} = req.params;
         const result = await productService.deleteProducts(pid)
+        req.logger.debug("Producto eliminado correctamente")
         res.send({status:"success"})
     }
 
@@ -93,6 +96,7 @@ export default class ProductsController{
         for(let i=0;i<100;i++){
             products.push(generateProduct())
         }
+        req.logger.debug("Se crearon 100 productos correctamente")
         res.send({status:"success", payload:products})
     }
 

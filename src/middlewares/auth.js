@@ -44,3 +44,10 @@ export const allowAdmin = async(req,res,next) => {
     }
     next();
 }
+
+export const allowRoles = async(req,res,next,roles) => {
+    if(roles.includes(req.user.role)){
+        return res.status(403).send({status:"error",error:"Fobidden"})
+    }
+    next();
+}

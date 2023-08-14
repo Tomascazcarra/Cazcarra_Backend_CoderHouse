@@ -23,7 +23,7 @@ program.parse(process.argv);
 const options = program.opts();
 setOptions(options);
 
-
+const {default: userRoutesMongo} = await import("./routes/mongo/users-mongo.js")
 const {default: cartsRoutesMongo} = await import("./routes/mongo/cart-mongo.js")
 const {default: productsRoutesMongo} = await import("./routes/mongo/products-mongo.js")
 const {default: sessionsRouter} = await import("./routes/mongo/session-mongo.js")
@@ -65,6 +65,7 @@ app.use(express.static(`${__dirname}/public`));
 app.use("/log", logRoutes);
 app.use("/api/products", productsRoutesMongo);
 app.use("/api/carts", cartsRoutesMongo);
+app.use("/api/users", userRoutesMongo);
 app.use("/", viewsRoutes);
 app.use("/chat", chatRoutes);
 app.use("/api/sessions", sessionsRouter);

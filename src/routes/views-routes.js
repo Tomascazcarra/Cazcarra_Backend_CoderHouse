@@ -24,4 +24,6 @@ router.post("/logout", privacy("PRIVATE"), viewsController.logout)
 
 router.get("/", privacy("NO_AUTHENTICATED"), viewsController.loginRedirect)
 
+router.get("/restorerequest", privacy("NO_AUTHENTICATED"), viewsController.restoreRequest)
+
 export default router;

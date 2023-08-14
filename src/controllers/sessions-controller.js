@@ -3,6 +3,7 @@ import { sessionErrorIncompleteValues } from "../constants/session-error.js";
 import UserCurrentDTO from "../dto/user/UserCurrentDTO.js";
 import ErrorService from "../services/error.services.js";
 
+
 export default class SessionsController{
 
     gitHubCallBack = async (req, res) =>{
@@ -22,8 +23,8 @@ export default class SessionsController{
     }
 
     login = (req, res) =>{
-
-        const {email,password} =req.session.user;
+        console.log(req.session.user)
+        const {email,password} = req.session.user;
 
         if(!email||!password){
             ErrorService.createError({
@@ -44,5 +45,11 @@ export default class SessionsController{
 
     current = async (req, res) =>{
         res.send({status:"success", message: new UserCurrentDTO(req.user)})
+    }
+
+    restoreRequest = async (req, res) =>{
+        const {email} = req.body;
+        if(!email) return res.error("faltan datos")
+        const restoreToken = generateToken()
     }
 }

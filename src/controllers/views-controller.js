@@ -46,4 +46,8 @@ export default class ViewsController{
         const carts = await cartService.getCarts();
         res.render("carts", {carts})
     }
+
+    restoreRequest = async (req, res) =>{
+        res.render("restorerequest")
+    }
 }

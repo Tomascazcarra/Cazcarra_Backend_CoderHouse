@@ -11,7 +11,11 @@ const productSchema = new mongoose.Schema({
     description:String,
     price:Number,
     stock:Number,
-    category:String
+    category:String,
+    owner:{
+        type:String,
+        default:"admin"
+    }
     
 },{timestamps:{createdAt:"created_at", updatedAt:"update_at"}});
 

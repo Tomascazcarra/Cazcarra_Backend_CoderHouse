@@ -26,6 +26,10 @@ export default class CartsController{
     addProductToCart = async (req, res) =>{
         let cid = req.params.cid;
         let pid = req.params.pid;
+        const product = await productService.getProductsBy({_id:pid})
+        if(req.user.role == "premium" && req.user.email == product.owner){
+            return res.status(405).send({status:"error", error: "No se puede agregar un producto que usted creo"})
+        }
         const result = await cartService.addProductToCart(cid, pid)
         req.logger.debug("Producto añadido al carrito correctamente")
         res.send({status:"success", message:"producto agregado al carrito"});

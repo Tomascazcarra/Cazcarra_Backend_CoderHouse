@@ -16,5 +16,11 @@ export default {
     auth:{
         ADMIN_EMAIL:process.env.ADMIN_EMAIL,
         ADMIN_PASSWORD:process.env.ADMIN_PASSWORD
+    },
+    mailer:{
+        USER:process.env.MAILER_MAIL,
+        PASSWORD:process.env.MAILER_PASSWORD
     }
+
+
 }

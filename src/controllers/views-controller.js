@@ -1,5 +1,6 @@
 import productsModel from "../dao/mongo/models/products.js"
 import { cartService } from "../services/repositories.js"
+import jwt from "jsonwebtoken"
 
 export default class ViewsController{
 
@@ -48,6 +49,18 @@ export default class ViewsController{
     }
 
     restoreRequest = async (req, res) =>{
-        res.render("restorerequest")
+        res.render("restoreRequest")
+    }
+
+    restorePassword = async (req, res) => {
+        const {token} = req.query;
+        try{
+            const validToken = jwt.verify(token, config.jwt.SECRET)
+            res.render("restorepassword")
+        }catch{
+            return res.render("invalidToken")
+        }
+
+        res.render("restorePassword")
     }
 }

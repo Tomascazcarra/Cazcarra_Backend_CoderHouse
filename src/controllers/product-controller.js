@@ -50,6 +50,14 @@ export default class ProductsController{
 
     createProducts = async (req, res) =>{
         const {title, description, price, stock, category} = req.body;
+        let owner = null
+        if(req.user.role == "premium"){
+            owner = req.user.email || "admin"
+        }
+        else{
+            owner = "admin"
+        }
+        
         if(!title || !description || !price || !stock || !category){
             ErrorService.createError({
                 name:"Product creation error",
@@ -62,7 +70,8 @@ export default class ProductsController{
             description,
             price,
             stock,
-            category
+            category,
+            owner
         }
         const result = await productService.createProducts(products);
         req.logger.debug("Producto creado correctamente")
@@ -72,12 +81,16 @@ export default class ProductsController{
     getProductsBy = async (req, res) =>{
         const {pid} = req.params;
         const products = await productService.getProductsBy({_id: pid});
-        if(!products) res.status(404).send({status:"error", error: "Producto no encontrado"})
+        if(!products) return res.status(404).send({status:"error", error: "Producto no encontrado"})
         res.send({status:"success", payload:products})
     }
 
     updateProducts = async (req, res) =>{
         const {pid} = req.params;
+        const product = await productService.getProductsBy({_id:pid})
+        if(req.user.role == "premium" && req.user.email != product.owner){
+            return res.status(405).send({status:"error", error: "No se puede actualizar un producto que usted no creo"})
+        }
         const updateProducts = req.nody;
         const result = await productService.updateProducts(pid, updateProducts)
         req.logger.debug("Producto actualizado correctamente")
@@ -86,9 +99,13 @@ export default class ProductsController{
 
     deleteProducts = async (req, res) =>{
         const {pid} = req.params;
+        const product = await productService.getProductsBy({_id:pid})
+        if(req.user.role == "premium" && req.user.email != product.owner){
+            return res.status(405).send({status:"error", error: "No se puede eliminar un producto que usted no creo"})
+        }
         const result = await productService.deleteProducts(pid)
         req.logger.debug("Producto eliminado correctamente")
-        res.send({status:"success"})
+        res.sendStatus(201);
     }
 
     createMockProducts = async (req, res) =>{

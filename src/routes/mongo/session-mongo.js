@@ -17,5 +17,8 @@ router.post("/login",passportCall("login"), sessionsController.login)
 
 router.get("/current", sessionsController.current)
 
-router.get("/restorerequest", sessionsController.restoreRequest )
+router.get("/restoreRequest", sessionsController.restoreRequest)
+
+router.get("/restoreRassword", sessionsController.restorePassword)
+
 export default router;

@@ -1,4 +1,6 @@
-import passport from "passport";
+import jwt from 'jsonwebtoken';
+import passport from 'passport';
+import bcrypt from 'bcrypt';
 
 export const privacy = (privacyType) =>{
     return (req,res, next) => {
@@ -29,25 +31,21 @@ export const passportCall = (strategy, options={}) =>{
     }
 }
 
-export const allowUsers = async(req,res,next) => {
-    const role = "user"
-    if(req.user.role!=role){
-        return res.status(403).send({status:"error",error:"Fobidden"})
+
+export const allowRoles = (roles) => {
+    return async(req,res,next) => {
+      if(!roles.includes(req.user.role)) return res.status(403).send({status:"error",error:"Fobidden"})
+      next();
     }
-    next();
 }
 
-export const allowAdmin = async(req,res,next) => {
-    const role = "admin"
-    if(req.user.role!=role){
-        return res.status(403).send({status:"error",error:"Fobidden"})
-    }
-    next();
+export const generateToken = (user, expiresIn='1d') =>{
+    return jwt.sign(user,config.jwt.SECRET,{expiresIn});
 }
 
-export const allowRoles = async(req,res,next,roles) => {
-    if(roles.includes(req.user.role)){
-        return res.status(403).send({status:"error",error:"Fobidden"})
-    }
-    next();
+export const createHash = async (password) =>{
+    const salts = await bcrypt.genSalt(10);
+    return bcrypt.hash(password,salts);
 }
+
+export const validatePassword = (password,hashedPassword) => bcrypt.compare(password,hashedPassword);

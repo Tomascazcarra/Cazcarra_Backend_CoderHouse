@@ -1,6 +1,6 @@
 import { Router } from "express";
 import CartsController from "../../controllers/cart-controller.js";
-import { allowUsers } from "../../middlewares/auth.js";
+import { allowRoles } from "../../middlewares/auth.js";
 
 const router = Router();
 const cartsController = new CartsController()
@@ -11,15 +11,15 @@ router.post("/", cartsController.createCart);
 
 router.get("/:cid", cartsController.getCartsBy);
 
-router.post("/:cid/product/:pid", allowUsers, cartsController.addProductToCart);
+router.post("/:cid/product/:pid", allowRoles(["premium", "user"]), cartsController.addProductToCart);
 
-router.delete("/:cid/products/:pid", allowUsers, cartsController.deleteProductToCart);
+router.delete("/:cid/products/:pid", allowRoles(["premium", "user"]), cartsController.deleteProductToCart);
 
-router.put("/:cid", allowUsers,cartsController.updateProductsFromCart);
+router.put("/:cid", allowRoles(["premium", "user"]),cartsController.updateProductsFromCart);
 
-router.put("/:cid/products/:pid", allowUsers, cartsController.updateQuantityFromProduct);
+router.put("/:cid/products/:pid", allowRoles(["premium", "user"]), cartsController.updateQuantityFromProduct);
 
-router.delete("/:cid", allowUsers, cartsController.deleteProductsFromCart);
+router.delete("/:cid", allowRoles(["premium", "user"]), cartsController.deleteProductsFromCart);
 
 router.post("/:cid/purchase", cartsController.purchase);
 

@@ -30,6 +30,7 @@ export default class cartsMongoManager{
         else {
            cart.products[productIndex] = {product:pid, quantity: cart.products[productIndex].quantity+1}
         }
+        console.log(cart.products)
         return cartsModel.findByIdAndUpdate(cid,{products: cart.products})
     }
     deleteProductFromCart = async (cid, pid) =>{

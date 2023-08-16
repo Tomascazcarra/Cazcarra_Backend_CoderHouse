@@ -1,6 +1,8 @@
 import {fileURLToPath} from "url";
 import { dirname } from "path";
 import bcrypt from "bcrypt";
+import fs from "fs";
+import Handlebars from "handlebars"
 
 export const createHash = async(password) =>{
     const salts = await bcrypt.genSalt(10)
@@ -17,7 +19,5 @@ export const generateMailTemplate = async(template,payload) =>{
     const compiledContent = precompiledContent({...payload})
     return compiledContent;
 }
-
-
 
 export default __dirname;

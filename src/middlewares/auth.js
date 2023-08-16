@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import bcrypt from 'bcrypt';
+import config from '../config/config.js';
 
 export const privacy = (privacyType) =>{
     return (req,res, next) => {

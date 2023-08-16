@@ -1,7 +1,7 @@
 export default class RestoreTokenDTIO {
-    static getForm = user =>{
+    static getForm = (user) =>{
         return {
-            name: user.name,
+            email: user.email,
         }
     }
 }

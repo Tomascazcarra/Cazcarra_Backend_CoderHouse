@@ -1,6 +1,7 @@
 import productsModel from "../dao/mongo/models/products.js"
 import { cartService } from "../services/repositories.js"
 import jwt from "jsonwebtoken"
+import config from "../config/config.js"
 
 export default class ViewsController{
 
@@ -60,7 +61,5 @@ export default class ViewsController{
         }catch{
             return res.render("invalidToken")
         }
-
-        res.render("restorePassword")
     }
 }

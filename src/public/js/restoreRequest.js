@@ -1,10 +1,10 @@
-const form = document.getElementById("restoreRequestForm")
+const text = document.getElementById("message")
 
 form.addEventListener("submit", async (event) =>{
     event.preventDefault();
     const data = new FormData(form);
     const obj = {};
-    const text = documente.getElementById("message");
+    const text = document.getElementById("message");
     data.forEach((value, key) => (obj[key]=value));
     const response = await fetch("/api/sessions/restoreRequest",{
         method:"POST",

@@ -20,6 +20,9 @@ export default {
     mailer:{
         USER:process.env.MAILER_MAIL,
         PASSWORD:process.env.MAILER_PASSWORD
+    },
+    jwt:{
+        SECRET:process.env.JWT_SECRET
     }
 
 

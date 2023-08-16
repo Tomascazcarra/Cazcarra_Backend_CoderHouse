@@ -4,6 +4,8 @@ import { userService } from "../services/repositories.js";
 import RestoreTokenDTO from "../dto/user/RestoreTokenDTO.js"
 import MailingService from "../services/repositories/mailing-services.js";
 import jwt  from "jsonwebtoken";
+import config from "../config/config.js";
+import DTemplates from "../constants/DTemplates.js"
 
 
 export default class SessionsController{
@@ -41,29 +43,28 @@ export default class SessionsController{
 
     restoreRequest = async (req, res) =>{
         const {email} = req.body;
-        if(!email) return res.error("faltan datos");
-        const user = await userService.getBy({email});
-        if(!user) return res.error("Email no valido");
+        if(!email) return res.status(400).send({status:"Faltan datos"});
+        const user = await userService.getUserBy({email});
+        if(!email) return res.status(400).send({status:"Email no valido"});
         const restoreToken = generateToken(RestoreTokenDTO.getFrom(user), "1h");
         const mailingService = new MailingService();
         const result = await mailingService.sendMail(user.email,DTemplates.RESTORE,{restoreToken})
         console.log(result)
-        res.sendSuccess("Correo enviado")
+        res.status(200).send({status:"success", message:"Mail enviado"});
     }
 
     restorePassword = async (req, res) =>{
         const {password, token} = req.body;
         try{
             const tokenUser = jwt.verify(token, config.jwt.SECRET)
-            const user = await userService.getBy({email: tokenUser.email})
+            const user = await userService.getUserBy({email: tokenUser.email})
             const isSamePassword = await validatePassword(password, user.password)
-            if(isSamePassword) return res.send("Su contraseña es igual a la anterior")
+            if(isSamePassword) return res.status(400).send("Su contraseña es igual a la anterior")
             const newHashedPassword = await createHash(password);
             await userService.updateUser(user._id,{password:newHashedPassword})
-            res.sendSuccess("Contraseña actualizada")
+            res.status(200).send({status:"success", message:"Contraseña actualizada"})
         }catch(error){
             console.log(error)
         }
-        res.sendStatus(200);
     }
 }

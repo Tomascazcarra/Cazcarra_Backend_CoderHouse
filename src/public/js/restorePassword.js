@@ -8,7 +8,7 @@ form.addEventListener("submit", async (event) =>{
     event.preventDefault();
     const data = new FormData(form);
     const obj = {};
-    const text = documente.getElementById("message");
+    const text = document.getElementById("message");
     data.forEach((value, key) => (obj[key]=value));
     obj.token = urlParams.token
     const response = await fetch("/api/sessions/restorePassword",{
@@ -20,7 +20,7 @@ form.addEventListener("submit", async (event) =>{
     })
     const responseData = await response.json();
     if(responseData.status==="success"){
-        text.innerHTML = "Se ha enviado un correo de verificación"
+        text.innerHTML = "Cambio de contraseña exitoso"
     }
     else{
         text.innerHTML = responseData.error

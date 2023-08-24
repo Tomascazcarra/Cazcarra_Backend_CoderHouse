@@ -26,6 +26,6 @@ router.get("/", privacy("NO_AUTHENTICATED"), viewsController.loginRedirect)
 
 router.get("/restoreRequest", privacy("NO_AUTHENTICATED"), viewsController.restoreRequest)
 
-router.post("/restorePassword", privacy("NO_AUTHENTICATED"), viewsController.restorePassword)
+router.get("/restorePassword", privacy("NO_AUTHENTICATED"), viewsController.restorePassword)
 
 export default router;

@@ -7,7 +7,7 @@ form.addEventListener("submit", async (event) =>{
     const obj = {};
     data.forEach((value, key) => (obj[key]=value));
     const response = await fetch("/api/sessions/restoreRequest",{
-        method:"GET",
+        method:"POST",
         body: JSON.stringify(obj),
         headers: {
             "Content-Type":"application/json"

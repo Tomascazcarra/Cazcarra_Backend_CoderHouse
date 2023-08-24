@@ -19,6 +19,6 @@ router.get("/current", sessionsController.current)
 
 router.post("/restoreRequest", sessionsController.restoreRequest)
 
-router.post("/restoreRassword", sessionsController.restorePassword)
+router.post("/restorePassword", sessionsController.restorePassword)
 
 export default router;

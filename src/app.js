@@ -14,7 +14,8 @@ import { Command } from "commander";
 import { setOptions } from "./options.js";
 import errorHandler from "./middlewares/error.js"
 import attachLogger from "./middlewares/logger.js";
-
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 
 const program = new Command();
 program
@@ -35,6 +36,20 @@ const PORT = config.app.PORT
 const server = app.listen(PORT,()=>console.log(`listening on ${PORT}`));
 const io = new Server(server);
 const connection = mongoose.connect(config.mongo.URL)
+
+const swaggerOptions = {
+    definition: {
+        openapi:"3.0.1",
+        info: {
+            title:"Documentacion backend",
+            description:"Docuementacion para entregas finales"
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
+
+const specs = swaggerJSDoc(swaggerOptions)
+app.use("/docs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 app.use(attachLogger);
 

@@ -1,0 +1,163 @@
+paths:
+  /api/products:
+    get:
+      summary: Devuelve los productos creados hasta el momento.
+      tags:
+      - Productos
+      responses:
+        "200":
+          description: Los productos fueron encontrados correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+        "500":
+          description: Error interno del servidor.
+        "404":
+          description: Primero debe estarse registrado para traer los productos.
+    post:
+      summary: Crea un nuevo producto.
+      tags:
+      - Productos
+      responses:
+        "201":
+          description: El producto fue creado correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+        "400":
+          description: Error al intentar crear un producto, faltan datos.
+  /api/products/{pid}:
+    get:
+      summary: Devuelve el producto seleccionado.
+      tags:
+      - Productos
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id para obtener al producto.
+        schema:
+          type: string
+      responses:
+        "200":
+          description: El producto fue encontrado correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+        "400":
+          description: Error al intentar encontrar el producto.
+    put:
+      summary: Actualiza el producto seleccionado.
+      tags:
+      - Productos
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id para actualizar al producto.
+        schema:
+          type: string
+      responses:
+        "200":
+          description: El producto fue actualizado correctamente.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/UpdateProduct"
+        "400":
+          description: Error al intentar actualizar el producto.
+        "405":
+          description: No puede actualizar un producto que usted no creo.
+    delete:
+      summary: Elimina el producto seleccionado.
+      tags:
+      - Productos
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id para eliminar al producto.
+        schema:
+          type: string
+      responses:
+        "200":
+          description: El producto fue eliminado correctamente.
+        "400":
+          description: Error al intentar eliminar el producto.
+        "405":
+          description: No puede eliminar un producto que usted no creo.
+
+components:
+  schemas:
+    product:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Titulo del producto.
+        description:
+          type: string
+          description: Descripcion del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        stock: 
+          type: number
+          description: Stock del producto.
+        category:
+          type: string
+          description: Categoria del producto.
+        owner:
+          type: string
+          description: Dueño del producto.
+        id:
+          type: string
+          description: id del producto.
+  requestBodies:
+    UpdateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Titulo del producto actualizado.
+        description:
+          type: string
+          description: Descripcion del producto actualizada.
+        price:
+          type: number
+          description: Precio del producto actualizado.
+        stock: 
+          type: number
+          description: Stock del producto actualizado.
+        category:
+          type: string
+          description: Categoria del producto actualizada.
+    CreateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Titulo del producto.
+        description:
+          type: string
+          description: Descripcion del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        stock: 
+          type: number
+          description: Stock del producto.
+        category:
+          type: string
+          description: Categoria del producto.

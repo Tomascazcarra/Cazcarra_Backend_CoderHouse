@@ -46,7 +46,7 @@ export default class SessionsController{
         if(!email) return res.status(400).send({status:"Faltan datos"});
         const user = await userService.getUserBy({email});
         if(!email) return res.status(400).send({status:"Email no valido"});
-        const restoreToken = generateToken(RestoreTokenDTO.getFrom(user), "1h");
+        const restoreToken = generateToken(RestoreTokenDTO.getForm(user), "1h");
         const mailingService = new MailingService();
         const result = await mailingService.sendMail(user.email,DTemplates.RESTORE,{restoreToken})
         console.log(result)

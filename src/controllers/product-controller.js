@@ -4,6 +4,7 @@ import { generateProduct } from "../mocks/product-mock.js"
 import EErrors from "../constants/EErrors.js";
 import { productErrorIncompleteValues } from "../constants/product-error.js";
 import ErrorService from "../services/error.services.js";
+import config from "../config/config.js";
 
 export default class ProductsController{
 
@@ -62,7 +63,9 @@ export default class ProductsController{
             ErrorService.createError({
                 name:"Product creation error",
                 cause:productErrorIncompleteValues(),
-                code: EErrors.INCOMPLETE_VALUES
+                code: EErrors.INCOMPLETE_VALUES,
+                message:"VALORES INCOMPLETOS",
+                status:400
             })
         }
         const products = {

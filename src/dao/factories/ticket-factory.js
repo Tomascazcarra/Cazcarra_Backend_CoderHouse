@@ -3,7 +3,7 @@ import config from "../../config/config.js";
 import { getOptions } from "../../options.js";
 
 const options = getOptions()
-const persistence = (options !== null && options.persistence !== null) ? options.persistence : config.app.PERSISTENCE;
+const persistence = (options != null && options.persistence != null) ? options.persistence : config.app.PERSISTENCE;
 
 export default class TicketPersistenceFactory {
     static async getPersistence() {

@@ -58,8 +58,15 @@ describe("Supertest de routes",()=>{
             expect(status).to.be.equals(201)
 
         })
-
-
+        it("endpoint POST /api/products NO debera crear correctamente un producto debido a falta de datos", async function(){
+            const invalidProduct = {
+                title: "prueba1"
+            }
+            const response = await request.post("/api/products/").set("Cookie", [`${cookie.name}=${cookie.value}`]).send(invalidProduct)
+            const {status,_body} = response;
+            expect(status).to.be.eql(400)
+            
+        })
         //TEST DE CARTS
         it("endpoint GET /api/carts debera responder status+payload", async function(){   
             const {_body} = await request.get("/api/carts/")
@@ -73,6 +80,11 @@ describe("Supertest de routes",()=>{
                 quantity:12
             }
             const response = await request.post("/api/carts/").set("Cookie", [`${cookie.name}=${cookie.value}`]).send(mockCart)
+            const {status,_body} = response;
+            expect(status).to.be.equals(201)
+        })
+        it("endpoint DELETE /api/carts debera eliminar correctamente un carrito", async function(){   
+            const response = await request.delete("/api/carts/").set("Cookie", [`${cookie.name}=${cookie.value}`])
             const {status,_body} = response;
             expect(status).to.be.equals(201)
         })

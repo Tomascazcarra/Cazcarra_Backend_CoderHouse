@@ -49,36 +49,41 @@ export default class ProductsController{
         })
     }
 
-    createProducts = async (req, res) =>{
-        const {title, description, price, stock, category} = req.body;
-        let owner = null
-        if(req.user.role == "premium"){
-            owner = req.user.email || "admin"
-        }
-        else{
-            owner = "admin"
+    createProducts = async (req, res, next) =>{
+        try{
+            const {title, description, price, stock, category} = req.body;
+            let owner = null
+            if(req.user.role == "premium"){
+                owner = req.user.email || "admin"
+            }
+            else{
+                owner = "admin"
+            }
+            
+            if(!title || !description || !price || !stock || !category){
+                ErrorService.createError({
+                    name:"Product creation error",
+                    cause:productErrorIncompleteValues(),
+                    code: EErrors.INCOMPLETE_VALUES,
+                    message:"VALORES INCOMPLETOS",
+                    status:400
+                })
+            }
+            const products = {
+                title,
+                description,
+                price,
+                stock,
+                category,
+                owner
+            }
+            const result = await productService.createProducts(products);
+            req.logger.debug("Producto creado correctamente")
+            res.sendStatus(201);
+        }catch(error){
+            next(error);
         }
         
-        if(!title || !description || !price || !stock || !category){
-            ErrorService.createError({
-                name:"Product creation error",
-                cause:productErrorIncompleteValues(),
-                code: EErrors.INCOMPLETE_VALUES,
-                message:"VALORES INCOMPLETOS",
-                status:400
-            })
-        }
-        const products = {
-            title,
-            description,
-            price,
-            stock,
-            category,
-            owner
-        }
-        const result = await productService.createProducts(products);
-        req.logger.debug("Producto creado correctamente")
-        res.sendStatus(201);
     }
 
     getProductsBy = async (req, res) =>{

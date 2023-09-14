@@ -62,4 +62,8 @@ export default class ViewsController{
             return res.render("invalidToken")
         }
     }
+
+    premiumLogin = async (req, res) => {
+        return res.render("upload")
+    }
 }

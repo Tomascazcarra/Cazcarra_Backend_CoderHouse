@@ -15,7 +15,11 @@ const schema = new mongoose.Schema({
     role:{
         type:String,
         default:"user"
-    }
+    },
+    documents: [{
+        name:String,
+        reference:String
+    }]
 })
 
 const userModel = mongoose.model(collection, schema);

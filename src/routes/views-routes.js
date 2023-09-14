@@ -28,4 +28,6 @@ router.get("/restoreRequest", privacy("NO_AUTHENTICATED"), viewsController.resto
 
 router.get("/restorePassword", privacy("NO_AUTHENTICATED"), viewsController.restorePassword)
 
+router.get("/premiumLogin", privacy("NO_AUTHENTICATED"), viewsController.premiumLogin )
+
 export default router;

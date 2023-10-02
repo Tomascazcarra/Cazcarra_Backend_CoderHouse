@@ -1,0 +1,29 @@
+<div>
+    <h1>Bienvenido, {{user.name}}.</h1>
+</div>
+
+<div>
+    <h2>Estos son los Usuarios registrados en MONGO</h2>
+    {{#each users}}
+    <div>
+        <p> Nombre:
+            {{this.first_name}}
+        </p>
+        <p> Apellido:
+            {{this.last_name}}
+        </p>
+        <p> Email:
+            {{this.email}}
+        </p>
+        <p> Rol:
+            {{this.role}}
+        </p>
+        <a><button>Eliminar usuario</button></a>
+        
+        <a href=""><button>Modificar usuario</button></a>  
+    </div>
+    <br>
+    {{/each}}
+</div>
+
+<script src="js/deleteusers.js"></script>

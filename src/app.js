@@ -87,6 +87,7 @@ app.use("/api/sessions", sessionsRouter);
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "handlebars");
+app.use("/deleteuser", viewsRoutes);
 
 const messages = [];
 io.on("connection",socket =>{

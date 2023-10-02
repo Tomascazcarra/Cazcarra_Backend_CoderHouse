@@ -19,7 +19,8 @@ const schema = new mongoose.Schema({
     documents: [{
         name:String,
         reference:String
-    }]
+    }],
+    lastActivity:String
 })
 
 const userModel = mongoose.model(collection, schema);

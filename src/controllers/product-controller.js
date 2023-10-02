@@ -5,6 +5,8 @@ import EErrors from "../constants/EErrors.js";
 import { productErrorIncompleteValues } from "../constants/product-error.js";
 import ErrorService from "../services/error.services.js";
 import config from "../config/config.js";
+import MailingService from "../services/repositories/mailing-services.js";
+
 
 export default class ProductsController{
 
@@ -110,6 +112,10 @@ export default class ProductsController{
         const product = await productService.getProductsBy({_id:pid})
         if(req.user.role == "premium" && req.user.email != product.owner){
             return res.status(405).send({status:"error", error: "No se puede eliminar un producto que usted no creo"})
+        }
+        if(req.user.role == "premium" && req.user.email == product.owner){
+            const mailingService = new MailingService();
+            const result = await mailingService.sendMail(req.user.email,DTemplates.DELETEPREMIUMPRODUCT)
         }
         const result = await productService.deleteProducts(pid)
         req.logger.debug("Producto eliminado correctamente")

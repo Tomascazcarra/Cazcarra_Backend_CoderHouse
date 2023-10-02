@@ -2,6 +2,7 @@ import productsModel from "../dao/mongo/models/products.js"
 import { cartService } from "../services/repositories.js"
 import jwt from "jsonwebtoken"
 import config from "../config/config.js"
+import { userService } from "../services/repositories.js"
 
 export default class ViewsController{
 
@@ -65,5 +66,10 @@ export default class ViewsController{
 
     premiumLogin = async (req, res) => {
         return res.render("upload")
+    }
+
+    deleteUsers = async (req, res) => {
+        let users = await userService.getUser();
+        return res.render("deleteusers", {users: users, user: req.session.user});
     }
 }

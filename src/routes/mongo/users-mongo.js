@@ -6,7 +6,8 @@ import uploader from "../../services/uploader.js";
 const router = Router();
 const userController = new UserController()
 
-router.put("/premium/:uid", userController.changeRole)
-router.post("/:uid/documents",uploader.array("files"),userController.documentUpload)
-
+router.put("/premium/:uid", userController.changeRole);
+router.post("/:uid/documents",uploader.array("files"),userController.documentUpload);
+router.get("/", userController.getUsers);
+router.delete("/",userController.deleteInactiveUsers);
 export default router;

@@ -6,5 +6,9 @@ export default {
     },
     restore: {
         subject:"Restaurar contraseña",
+    },
+    deleteUser: {
+        subject:"Aviso de eliminacion de usuario",
     }
+
 }

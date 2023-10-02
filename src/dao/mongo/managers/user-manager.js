@@ -14,4 +14,7 @@ export default class userMongoManager{
     updateUser = (id, user) =>{
         return userModel.findByIdAndUpdate(id,{$set:user})
     }
+    deleteUser = (id) => {
+        return userModel.findByIdAndDelete(id)
+    }
 }

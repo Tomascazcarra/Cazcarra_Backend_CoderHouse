@@ -30,4 +30,6 @@ router.get("/restorePassword", privacy("NO_AUTHENTICATED"), viewsController.rest
 
 router.get("/premiumLogin", privacy("NO_AUTHENTICATED"), viewsController.premiumLogin )
 
+router.get("/deleteUsers", privacy("PRIVATE"), allowRoles(["admin"]), viewsController.deleteUsers )
+
 export default router;

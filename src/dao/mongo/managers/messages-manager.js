@@ -5,7 +5,7 @@ export default class MessageManager {
     getMessages = (params) => {
         return messagesModel.find(params).lean();
     }
-    createMessage = (message) =>{
+    createMessage = (message) => {
         return messagesModel.create(message);
     }
 }

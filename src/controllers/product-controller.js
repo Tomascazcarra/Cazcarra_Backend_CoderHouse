@@ -8,67 +8,68 @@ import config from "../config/config.js";
 import MailingService from "../services/repositories/mailing-services.js";
 
 
-export default class ProductsController{
+export default class ProductsController {
 
-    getProducts = async (req, res) =>{
+    getProducts = async (req, res) => {
         let limit = req.query.limit || 10
         let page = req.query.page || 1
         let sort = req.query.sort || ""
         let options = { page, limit: limit, lean: true }
         let queryOptions = {};
-        if (sort!==""){
-            if (sort == "asc"){
-                sort = 1 
+        if (sort !== "") {
+            if (sort == "asc") {
+                sort = 1
             }
-            else if (sort == "desc"){
+            else if (sort == "desc") {
                 sort = -1
             }
-            options["sort"]={price: sort}
+            options["sort"] = { price: sort }
         }
         if (req.query.category) {
             queryOptions.category = req.query.category;
         }
-        
+
         if (req.query.stock) {
-            queryOptions.stock = {$gte: req.query.stock};
+            queryOptions.stock = { $gte: req.query.stock };
         }
 
-        const {docs, hasPrevPage, hasNextPage, prevPage, nextPage, totalPages, ...rest} = await productsModel.paginate(queryOptions,options)
+        const { docs, hasPrevPage, hasNextPage, prevPage, nextPage, totalPages, ...rest } = await productsModel.paginate(queryOptions, options)
 
-        let prevLink = hasPrevPage ?  `http://localhost:${config.app.PORT}/api/products/?page=`+prevPage : null
-        let nextLink = hasNextPage ?  `http://localhost:${config.app.PORT}/api/products/?page=`+nextPage : null
+        let prevLink = hasPrevPage ? `http://localhost:${config.app.PORT}/api/products/?page=` + prevPage : null
+        let nextLink = hasNextPage ? `http://localhost:${config.app.PORT}/api/products/?page=` + nextPage : null
 
-        res.send({status:"success", 
-                        payload:docs, 
-                        totalPages: totalPages,
-                        prevLink: prevLink,
-                        nextLink: nextLink,
-                        page: page,
-                        hasPrevPage: hasPrevPage,
-                        hasNextPage: hasNextPage,
-                        prevPage: prevPage,
-                        nextPage: nextPage
+        res.send({
+            status: "success",
+            payload: docs,
+            totalPages: totalPages,
+            prevLink: prevLink,
+            nextLink: nextLink,
+            page: page,
+            hasPrevPage: hasPrevPage,
+            hasNextPage: hasNextPage,
+            prevPage: prevPage,
+            nextPage: nextPage
         })
     }
 
-    createProducts = async (req, res, next) =>{
-        try{
-            const {title, description, price, stock, category} = req.body;
+    createProducts = async (req, res, next) => {
+        try {
+            const { title, description, price, stock, category } = req.body;
             let owner = null
-            if(req.user.role == "premium"){
+            if (req.user.role == "premium") {
                 owner = req.user.email || "admin"
             }
-            else{
+            else {
                 owner = "admin"
             }
-            
-            if(!title || !description || !price || !stock || !category){
+
+            if (!title || !description || !price || !stock || !category) {
                 ErrorService.createError({
-                    name:"Product creation error",
-                    cause:productErrorIncompleteValues(),
+                    name: "Product creation error",
+                    cause: productErrorIncompleteValues(),
                     code: EErrors.INCOMPLETE_VALUES,
-                    message:"VALORES INCOMPLETOS",
-                    status:400
+                    message: "VALORES INCOMPLETOS",
+                    status: 400
                 })
             }
             const products = {
@@ -82,24 +83,24 @@ export default class ProductsController{
             const result = await productService.createProducts(products);
             req.logger.debug("Producto creado correctamente")
             res.sendStatus(201);
-        }catch(error){
+        } catch (error) {
             next(error);
         }
-        
+
     }
 
-    getProductsBy = async (req, res) =>{
-        const {pid} = req.params;
-        const products = await productService.getProductsBy({_id: pid});
-        if(!products) return res.status(404).send({status:"error", error: "Producto no encontrado"})
-        res.send({status:"success", payload:products})
+    getProductsBy = async (req, res) => {
+        const { pid } = req.params;
+        const products = await productService.getProductsBy({ _id: pid });
+        if (!products) return res.status(404).send({ status: "error", error: "Producto no encontrado" })
+        res.send({ status: "success", payload: products })
     }
 
-    updateProducts = async (req, res) =>{
-        const {pid} = req.params;
-        const product = await productService.getProductsBy({_id:pid})
-        if(req.user.role == "premium" && req.user.email != product.owner){
-            return res.status(405).send({status:"error", error: "No se puede actualizar un producto que usted no creo"})
+    updateProducts = async (req, res) => {
+        const { pid } = req.params;
+        const product = await productService.getProductsBy({ _id: pid })
+        if (req.user.role == "premium" && req.user.email != product.owner) {
+            return res.status(405).send({ status: "error", error: "No se puede actualizar un producto que usted no creo" })
         }
         const updateProducts = req.nody;
         const result = await productService.updateProducts(pid, updateProducts)
@@ -107,28 +108,28 @@ export default class ProductsController{
         res.sendStatus(201);
     }
 
-    deleteProducts = async (req, res) =>{
-        const {pid} = req.params;
-        const product = await productService.getProductsBy({_id:pid})
-        if(req.user.role == "premium" && req.user.email != product.owner){
-            return res.status(405).send({status:"error", error: "No se puede eliminar un producto que usted no creo"})
+    deleteProducts = async (req, res) => {
+        const { pid } = req.params;
+        const product = await productService.getProductsBy({ _id: pid })
+        if (req.user.role == "premium" && req.user.email != product.owner) {
+            return res.status(405).send({ status: "error", error: "No se puede eliminar un producto que usted no creo" })
         }
-        if(req.user.role == "premium" && req.user.email == product.owner){
+        if (req.user.role == "premium" && req.user.email == product.owner) {
             const mailingService = new MailingService();
-            const result = await mailingService.sendMail(req.user.email,DTemplates.DELETEPREMIUMPRODUCT)
+            const result = await mailingService.sendMail(req.user.email, DTemplates.DELETEPREMIUMPRODUCT)
         }
         const result = await productService.deleteProducts(pid)
         req.logger.debug("Producto eliminado correctamente")
         res.sendStatus(201);
     }
 
-    createMockProducts = async (req, res) =>{
+    createMockProducts = async (req, res) => {
         const products = []
-        for(let i=0;i<100;i++){
+        for (let i = 0; i < 100; i++) {
             products.push(generateProduct())
         }
         req.logger.debug("Se crearon 100 productos correctamente")
-        res.send({status:"success", payload:products})
+        res.send({ status: "success", payload: products })
     }
 
 }

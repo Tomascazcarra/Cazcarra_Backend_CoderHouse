@@ -2,13 +2,13 @@ import __dirname from "../utils.js"
 
 export default {
     welcome: {
-        subject:"¡Bienvenido!",
+        subject: "¡Bienvenido!",
     },
     restore: {
-        subject:"Restaurar contraseña",
+        subject: "Restaurar contraseña",
     },
     deleteUser: {
-        subject:"Aviso de eliminacion de usuario",
+        subject: "Aviso de eliminacion de usuario",
     }
 
 }

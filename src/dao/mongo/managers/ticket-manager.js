@@ -1,16 +1,16 @@
 import ticketModel from "../models/ticket.js";
 
-export default class ticketMongoManager{
+export default class ticketMongoManager {
 
-    getTickets = () =>{
+    getTickets = () => {
         return ticketModel.find().lean().populate()
     }
 
-    getTicketsBy = (params) =>{
+    getTicketsBy = (params) => {
         return ticketModel.findOne(params).lean().populate()
     }
 
-    createTickets = (ticket) =>{
+    createTickets = (ticket) => {
         return ticketModel.create(ticket);
     }
 

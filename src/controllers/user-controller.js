@@ -21,7 +21,7 @@ export default class UserController {
         else if (user.role == "premium") {
             user.role = "user"
         }
-        else if (user.role == "admin"){
+        else if (user.role == "admin") {
             return res.status(400).send({ status: "error", error: "No se puede actualizar el rol de un usuario admininistrador" })
         }
         await userService.updateUser(user._id, { role: user.role })
@@ -67,24 +67,24 @@ export default class UserController {
         for (const user of users) {
             const lastActivityDate = new Date(user.lastActivity.replace(' ', 'T'));
             let difference = currentDateTime - lastActivityDate;
-            difference = difference/(1000*60*60*24)
+            difference = difference / (1000 * 60 * 60 * 24)
             if (difference >= 2) {
                 const mailingService = new MailingService();
-                const result = await mailingService.sendMail(user.email,DTemplates.DELETEUSER)
+                const result = await mailingService.sendMail(user.email, DTemplates.DELETEUSER)
                 await userService.deleteUser(user.id)
             }
         };
-        res.send({ status: "success", message: "usuarios inactivos eliminados"})
+        res.send({ status: "success", message: "usuarios inactivos eliminados" })
     }
 
     deleteUser = async (req, res) => {
         const { uid } = req.params;
         const user = await userService.getUserBy({ _id: uid });
-        if (user.role == "admin"){
+        if (user.role == "admin") {
             return res.status(400).send({ status: "error", error: "No se puede eliminar a un usuario administrador" })
         }
         await userService.deleteUser(uid);
-        res.send({ status: "success", message: "usuario eliminado"})
+        res.send({ status: "success", message: "usuario eliminado" })
     }
 
 

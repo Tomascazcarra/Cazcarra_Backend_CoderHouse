@@ -1,18 +1,18 @@
 import productsModel from "../models/products.js";
 
-export default class productsMongoManager{
+export default class productsMongoManager {
 
-    getProducts = () =>{
+    getProducts = () => {
         return productsModel.find().lean();
     }
-    getProductsBy = (params) =>{
+    getProductsBy = (params) => {
         return productsModel.findOne(params).lean();
     }
-    createProducts = (products) =>{
+    createProducts = (products) => {
         return productsModel.create(products);
     }
-    updateProducts = (id, products) =>{
-        return productsModel.findByIdAndUpdate(id,{$set:products})
+    updateProducts = (id, products) => {
+        return productsModel.findByIdAndUpdate(id, { $set: products })
     }
     deleteProducts = (id) => {
         return productsModel.findByIdAndDelete(id)

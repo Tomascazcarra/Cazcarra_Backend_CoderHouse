@@ -12,10 +12,10 @@ deleteButtons.forEach(button => {
             }
         })
         const responseData = await response.json();
-        if(responseData.status==="success"){
+        if (responseData.status === "success") {
             window.location.replace("/deleteusers")
         }
-        else{
+        else {
             alert(responseData.error)
         }
 
@@ -34,10 +34,10 @@ updateRoleButtons.forEach(button => {
             }
         })
         const responseData = await response.json();
-        if(responseData.status==="success"){
+        if (responseData.status === "success") {
             window.location.replace("/deleteusers")
         }
-        else{
+        else {
             alert(responseData.error)
         }
 

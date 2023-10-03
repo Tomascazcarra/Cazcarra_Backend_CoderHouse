@@ -8,10 +8,10 @@ const persistence = (options != null && options.persistence != null) ? options.p
 export default class TicketPersistenceFactory {
     static async getPersistence() {
         let ticketDao;
-        switch(persistence) {
+        switch (persistence) {
             case "MONGO":
                 mongoose.connect(config.mongo.URL);
-                const {default: MongoDao} = await import ("../mongo/managers/ticket-manager.js");
+                const { default: MongoDao } = await import("../mongo/managers/ticket-manager.js");
                 ticketDao = new MongoDao();
                 break;
         }

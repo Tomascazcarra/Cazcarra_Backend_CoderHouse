@@ -1,18 +1,18 @@
-export default class ProductService{
-    constructor(dao){
+export default class ProductService {
+    constructor(dao) {
         this.dao = dao;
     }
 
-    getProducts = () =>{
+    getProducts = () => {
         return this.dao.getProducts();
     }
-    getProductsBy = (params) =>{
+    getProductsBy = (params) => {
         return this.dao.getProductsBy(params);
     }
-    createProducts = (products) =>{
+    createProducts = (products) => {
         return this.dao.createProducts(products);
     }
-    updateProducts = (id, products) =>{
+    updateProducts = (id, products) => {
         return this.dao.updateProducts(id, products);
     }
     deleteProducts = (id) => {

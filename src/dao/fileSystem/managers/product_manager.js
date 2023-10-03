@@ -5,7 +5,7 @@ export default class ProductManager {
         this.path = path;
     };
 
-    generateId = async() => {
+    generateId = async () => {
         let productos = await this.getProducts()
         if (productos.length == 0) {
             return 1
@@ -13,8 +13,8 @@ export default class ProductManager {
         return productos[productos.length - 1].id + 1;
     };
 
-    getProducts = async() =>{
-        if(fs.existsSync(this.path)){
+    getProducts = async () => {
+        if (fs.existsSync(this.path)) {
             let data = await fs.promises.readFile(this.path, "utf-8")
             let productos = JSON.parse(data)
             return productos
@@ -22,7 +22,7 @@ export default class ProductManager {
         return [];
     };
 
-    createProducts = async(product)  => {
+    createProducts = async (product) => {
         let productos = await this.getProducts()
         if (productos.some(p => p.code === product.code)) {
             throw new Error("El código del producto ya existe.");
@@ -35,13 +35,13 @@ export default class ProductManager {
         await fs.promises.writeFile(this.path, JSON.stringify(productos))
     };
 
-    getProductById = async(id) => {
+    getProductById = async (id) => {
         let productos = await this.getProducts();
         const product = productos.find(p => p.id == id);
         return product;
     }
-    
-    updateProducts = async(id, producto) => {
+
+    updateProducts = async (id, producto) => {
         let productos = await this.getProducts()
         const index = productos.findIndex(p => p.id == id);
         if (index == -1) {
@@ -49,7 +49,7 @@ export default class ProductManager {
         }
         else {
             const productToUpdate = productos[index]
-            for(let attribute in producto){
+            for (let attribute in producto) {
                 productToUpdate[attribute] = producto[attribute];
             }
             productos[index] = productToUpdate
@@ -57,7 +57,7 @@ export default class ProductManager {
         }
     }
 
-    deleteProducts = async(id) => {
+    deleteProducts = async (id) => {
         let productos = await this.getProducts();
         const product = productos.find(p => p.id == id);
         if (!product) {

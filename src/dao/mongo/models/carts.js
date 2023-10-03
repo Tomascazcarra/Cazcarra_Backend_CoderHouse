@@ -5,21 +5,21 @@ const collection = "carts";
 
 const cartSchema = new mongoose.Schema({
     products: {
-        type:[
+        type: [
             {
-                product:{
-                type:mongoose.SchemaTypes.ObjectId,
-                ref:"products"
+                product: {
+                    type: mongoose.SchemaTypes.ObjectId,
+                    ref: "products"
                 },
-                quantity:Number
+                quantity: Number
             }
-            
+
         ],
-        default:[]
-    }, 
-    
-    
-},{timestamps:{createdAt:"created_at", updatedAt:"update_at"}});
+        default: []
+    },
+
+
+}, { timestamps: { createdAt: "created_at", updatedAt: "update_at" } });
 
 const cartsModel = mongoose.model(collection, cartSchema);
 

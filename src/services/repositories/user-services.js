@@ -1,18 +1,18 @@
-export default class UserService{
-    constructor(dao){
+export default class UserService {
+    constructor(dao) {
         this.dao = dao;
     }
 
-    getUser = () =>{
+    getUser = () => {
         return this.dao.getUser();
     }
-    getUserBy = (params) =>{
+    getUserBy = (params) => {
         return this.dao.getUserBy(params);
     }
-    updateUser = (id, user) =>{
-        return this.dao.updateUser(id,user)
+    updateUser = (id, user) => {
+        return this.dao.updateUser(id, user)
     }
-    deleteUser = (id) =>{
+    deleteUser = (id) => {
         return this.dao.deleteUser(id)
     }
 }

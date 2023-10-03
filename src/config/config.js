@@ -1,28 +1,28 @@
 import dotenv from "dotenv"
 
 dotenv.config({
-    
+
 });
 
 export default {
-    app:{
-        PORT:process.env.PORT||8080,
-        PERSISTENCE:process.env.PERSISTENCE||"MONGO",
-        LOGGER:process.env.LOGGER||"prod"
+    app: {
+        PORT: process.env.PORT || 8080,
+        PERSISTENCE: process.env.PERSISTENCE || "MONGO",
+        LOGGER: process.env.LOGGER || "prod"
     },
-    mongo:{
-        URL:process.env.MONGO_URL||"localhost:27017"
+    mongo: {
+        URL: process.env.MONGO_URL || "localhost:27017"
     },
-    auth:{
-        ADMIN_EMAIL:process.env.ADMIN_EMAIL,
-        ADMIN_PASSWORD:process.env.ADMIN_PASSWORD
+    auth: {
+        ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+        ADMIN_PASSWORD: process.env.ADMIN_PASSWORD
     },
-    mailer:{
-        USER:process.env.MAILER_MAIL,
-        PASSWORD:process.env.MAILER_PASSWORD
+    mailer: {
+        USER: process.env.MAILER_MAIL,
+        PASSWORD: process.env.MAILER_PASSWORD
     },
-    jwt:{
-        SECRET:process.env.JWT_SECRET
+    jwt: {
+        SECRET: process.env.JWT_SECRET
     }
 
 

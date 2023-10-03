@@ -15,7 +15,7 @@ router.post("/:cid/product/:pid", allowRoles(["premium", "user"]), cartsControll
 
 router.delete("/:cid/products/:pid", allowRoles(["premium", "user"]), cartsController.deleteProductToCart);
 
-router.put("/:cid", allowRoles(["premium", "user"]),cartsController.updateProductsFromCart);
+router.put("/:cid", allowRoles(["premium", "user"]), cartsController.updateProductsFromCart);
 
 router.put("/:cid/products/:pid", allowRoles(["premium", "user"]), cartsController.updateQuantityFromProduct);
 

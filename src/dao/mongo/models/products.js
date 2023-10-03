@@ -4,20 +4,20 @@ import mongoosePaginate from "mongoose-paginate-v2";
 const collection = "products";
 
 const productSchema = new mongoose.Schema({
-    title:{
-        type:String,
-        index:true
+    title: {
+        type: String,
+        index: true
     },
-    description:String,
-    price:Number,
-    stock:Number,
-    category:String,
-    owner:{
-        type:String,
-        default:"admin"
+    description: String,
+    price: Number,
+    stock: Number,
+    category: String,
+    owner: {
+        type: String,
+        default: "admin"
     }
-    
-},{timestamps:{createdAt:"created_at", updatedAt:"update_at"}});
+
+}, { timestamps: { createdAt: "created_at", updatedAt: "update_at" } });
 
 productSchema.plugin(mongoosePaginate);
 

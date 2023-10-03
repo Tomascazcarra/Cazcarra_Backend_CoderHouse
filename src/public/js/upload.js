@@ -1,19 +1,19 @@
 const form = document.getElementById("uploadForm")
 
-form.addEventListener("submit", async (event) =>{
+form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(form);
     const obj = {};
-    data.forEach((value, key) => (obj[key]=value));
-    const response = await fetch("/api/users/:uid/documents",{
-        method:"POST",
+    data.forEach((value, key) => (obj[key] = value));
+    const response = await fetch("/api/users/:uid/documents", {
+        method: "POST",
         body: JSON.stringify(obj),
         headers: {
-            "Content-Type":"application/json"
+            "Content-Type": "application/json"
         }
     })
     const responseData = await response.json();
-    if(responseData.status==="success"){
+    if (responseData.status === "success") {
         window.location.replace("/products")
     }
 })

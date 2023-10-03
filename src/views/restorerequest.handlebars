@@ -1,12 +1,26 @@
-<h1>Recuperación de contrasena</h1>
+<!DOCTYPE html>
+<html lang="es">
 
-<p>Escribe el mail con el que se recuperara la contraseña</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Coderhouse</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
 
-<form id="restoreRequestForm">
-    <input name="email">
-    <input type="submit" id="submitter">
-</form>
 
-<p id="message"></p>
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <h2 class="active"> Escribe el mail con el que se recuperará tu contraseña.</h2>
+            <form id="restoreRequestForm">
+                <input type="text" class="fadeIn second" name="email" placeholder="Email">
+                <input type="submit" id="submitter" class="fadeIn fourth" value="Enviar">
+            </form>
+            <p id="message"></p>
+        </div>
+    </div>
+    <script src="/js/restoreRequest.js"></script>
+</body>
 
-<script src="/js/restoreRequest.js"></script>
+</html>

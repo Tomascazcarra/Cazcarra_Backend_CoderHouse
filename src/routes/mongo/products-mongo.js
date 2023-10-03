@@ -9,12 +9,12 @@ router.get("/", productsController.getProducts)
 
 router.get("/mockingproducts", productsController.createMockProducts)
 
-router.post("/", allowRoles(["admin","premium"]), productsController.createProducts)
+router.post("/", allowRoles(["admin", "premium"]), productsController.createProducts)
 
 router.get("/:pid", productsController.getProductsBy)
 
-router.put("/:pid", allowRoles(["admin","premium"]), productsController.updateProducts)
+router.put("/:pid", allowRoles(["admin", "premium"]), productsController.updateProducts)
 
-router.delete("/:pid", allowRoles(["admin","premium"]), productsController.deleteProducts)
+router.delete("/:pid", allowRoles(["admin", "premium"]), productsController.deleteProducts)
 
 export default router;

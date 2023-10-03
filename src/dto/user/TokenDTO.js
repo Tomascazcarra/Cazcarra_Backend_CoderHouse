@@ -1,5 +1,5 @@
 export default class UserTokenDTO {
-    static getForm = user =>{
+    static getForm = user => {
         return {
             name: user.name,
             id: user._id,

@@ -2,11 +2,11 @@ import { Router } from "express";
 
 const router = Router();
 
-router.get("/", (req,res)=>{
+router.get("/", (req, res) => {
     res.sendStatus(200)
-}) 
+})
 
-router.get("/loggerTest",(req,res)=>{
+router.get("/loggerTest", (req, res) => {
     req.logger.fatal("Fatal");
     req.logger.error("Error");
     req.logger.warning("Warning");

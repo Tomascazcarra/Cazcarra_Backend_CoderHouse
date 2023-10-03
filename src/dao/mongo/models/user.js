@@ -3,24 +3,24 @@ import mongoose from "mongoose";
 const collection = "users";
 
 const schema = new mongoose.Schema({
-    first_name:String,
-    last_name:String,
-    email:String,
-    password:String,
-    age:Number,
-    cart:{
+    first_name: String,
+    last_name: String,
+    email: String,
+    password: String,
+    age: Number,
+    cart: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref:"carts"
+        ref: "carts"
     },
-    role:{
-        type:String,
-        default:"user"
+    role: {
+        type: String,
+        default: "user"
     },
     documents: [{
-        name:String,
-        reference:String
+        name: String,
+        reference: String
     }],
-    lastActivity:String
+    lastActivity: String
 })
 
 const userModel = mongoose.model(collection, schema);

@@ -10,7 +10,7 @@
 
 <body>
     <h1 class="active"> Lista de productos. </h1>
-    
+
     <a href="/carts/{{cartId}}" class="buttoncart"><button>Mi carrito</button></a>
     <div class="caja">
         {{#each products}}
@@ -33,7 +33,8 @@
                 <p> Categoria:
                     {{this.category}}
                 </p>
-                <a class="buttons"><button id="addProductToCart" data-arg1="{{this._id}}" data-arg2="{{../cartId}}">agregar a carrito</button></a> 
+                <a class="buttons"><button id="addProductToCart" data-arg1="{{this._id}}"
+                        data-arg2="{{../cartId}}">agregar a carrito</button></a>
             </div>
         </div>
         {{/each}}

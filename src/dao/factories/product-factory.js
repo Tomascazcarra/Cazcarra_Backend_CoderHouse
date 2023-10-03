@@ -8,10 +8,10 @@ const persistence = (options != null && options.persistence != null) ? options.p
 export default class ProductPersistenceFactory {
     static async getPersistence() {
         let productDao;
-        switch(persistence) {
+        switch (persistence) {
             case "MONGO":
                 mongoose.connect(config.mongo.URL);
-                const {default: MongoDao} = await import ("../mongo/managers/products-manager.js");
+                const { default: MongoDao } = await import("../mongo/managers/products-manager.js");
                 productDao = new MongoDao();
                 break;
         }

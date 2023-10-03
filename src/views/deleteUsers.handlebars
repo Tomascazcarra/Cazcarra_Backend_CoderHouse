@@ -18,12 +18,10 @@
         <p> Rol:
             {{this.role}}
         </p>
-        <a><button>Eliminar usuario</button></a>
-        
-        <a href=""><button>Modificar usuario</button></a>  
+        <a><button id="update_role_button" data-arg1="{{this._id}}">Cambiar rol</button></a>
+        <a><button id="delete_button" data-arg1="{{this._id}}">Eliminar usuario</button></a>
     </div>
     <br>
     {{/each}}
 </div>
-
-<script src="js/deleteusers.js"></script>
+<script src="/js/deleteusers.js"></script>

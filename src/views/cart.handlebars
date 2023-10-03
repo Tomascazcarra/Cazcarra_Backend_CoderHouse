@@ -13,7 +13,7 @@
     <div class="cajacarrito">
         <div class="cardcarrito">
             <div class="details">
-                {{#each result}}
+                {{#each products}}
                 <p> Titulo:
                     {{this.product.title}}
                 </p>
@@ -21,14 +21,24 @@
                     {{this.product.price}}
                 </p>
                 <p> Cantidad:
-                    {{this.quantity}}
+                    <span id="quantity">{{this.quantity}}</span>
+                    <button id="increase-quantity" data-arg1="{{this.product._id}}" data-arg2="{{../cartId}}">+</button>
+                    <button id="decrease-quantity" data-arg1="{{this.product._id}}" data-arg2="{{../cartId}}">-</button>
                 </p>
+                <a><button id="delete-product" data-arg1="{{this.product._id}}" data-arg2="{{../cartId}}">Eliminar
+                        producto del carrito</button></a>
                 {{/each}}
-            <a class="buttons"><button>Finalizar compra</button></a>
+                <div>
+                    <a class="buttons"><button id="boton_cart" data-arg1="{{cartId}}">Finalizar compra</button></a>
+                </div>
+                <br>
+                <div>
+                    <a class="buttons" href="/products"><button data-arg1="{{cartId}}">Volver a productos</button></a>
+                </div>
             </div>
         </div>
     </div>
-    <script src="js/cart.js"></script>
+    <script src="/js/cart.js"></script>
 </body>
 
 </html>

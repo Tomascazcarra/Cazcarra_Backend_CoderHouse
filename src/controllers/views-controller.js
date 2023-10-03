@@ -35,14 +35,15 @@ export default class ViewsController{
         const {page = 1} = req.query;
         const {docs, hasPrevPage, hasNextPage, prevPage, nextPage, ...rest} = await productsModel.paginate({},{ page, limit: 5, lean: true})
         const products = docs;
-        res.render("productsmongo",{products, hasPrevPage, hasNextPage, prevPage, nextPage, page:rest.page, user:req.session.user})
+        const user = await userService.getUserBy({_id: req.session.user.id}).lean().populate()
+        res.render("productsmongo",{products, hasPrevPage, hasNextPage, prevPage, nextPage, page:rest.page, user:req.session.user, cartId: user.cart})
     }
 
     getCartsBy = async (req, res) =>{
         let cid = req.params.cid
-        const carts = await cartService.getCartsBy({_id: cid});
-        const result = carts["products"]
-        res.render("cart", {result})
+        const cart = await cartService.getCartsBy({_id: cid});
+        const products = cart["products"]
+        res.render("cart", {products: products, cartId: cid})
     }
     
     getCarts = async (req, res) =>{

@@ -8,9 +8,10 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
-
 <body>
     <h1 class="active"> Lista de productos. </h1>
+    
+    <a href="/carts/{{cartId}}" class="buttoncart"><button>Mi carrito</button></a>
     <div class="caja">
         {{#each products}}
         <div class="card">
@@ -32,7 +33,7 @@
                 <p> Categoria:
                     {{this.category}}
                 </p>
-                <a href="/carts" class="buttons"><button>agregar a carrito</button></a>
+                <a class="buttons"><button id="addProductToCart" data-arg1="{{this._id}}" data-arg2="{{../cartId}}">agregar a carrito</button></a> 
             </div>
         </div>
         {{/each}}
@@ -49,7 +50,7 @@
         </div>
     </div>
     <div>
-        <button class="button" id="boton_logout">Logout</button>
+        <a class="buttonlogout"><button id="boton_logout">Logout</button></a>
     </div>
 
     <script src="/js/product.js"></script>

@@ -1,0 +1,45 @@
+{
+    "product": {
+        "_id": "64755539c9bde7e91acc57bb",
+        "title": "nuevo producto mongo 5",
+        "description": "este es un producto prueba 3",
+        "price": 300,
+        "stock": 15,
+        "category": "producto",
+        "created_at": "2023-05-30T01:45:29.136Z",
+        "update_at": "2023-05-30T01:45:29.136Z",
+        "__v": 0
+    },
+    "quantity": 3,
+    "_id": "651c7997b0b05787c2ff9e4a"
+},
+{
+    "product": {
+        "_id": "64755530c9bde7e91acc57b9",
+        "title": "nuevo producto mongo 4",
+        "description": "este es un producto prueba 3",
+        "price": 200,
+        "stock": 5,
+        "category": "producto",
+        "created_at": "2023-05-30T01:45:20.548Z",
+        "update_at": "2023-05-30T01:45:20.548Z",
+        "__v": 0
+    },
+    "quantity": 2,
+    "_id": "651c7a47dc4c63ccfcbc0cf4"
+},
+{
+    "product": {
+        "_id": "64755526c9bde7e91acc57b7",
+        "title": "nuevo producto mongo 3",
+        "description": "este es un producto prueba 3",
+        "price": 100,
+        "stock": 2,
+        "category": "producto",
+        "created_at": "2023-05-30T01:45:10.392Z",
+        "update_at": "2023-05-30T01:45:10.392Z",
+        "__v": 0
+    },
+    "quantity": 4,
+    "_id": "651c7c5b39a7d6c9e393711a"
+}

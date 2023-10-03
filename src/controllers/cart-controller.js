@@ -70,8 +70,8 @@ export default class CartsController{
         let productosNoComprados = []
         let cid = req.params.cid;
         const carts = await cartService.getCartsBy({_id: cid});
-        for(let i = 0; i < carts.products; i++){
-            let product = await productService.getProductsBy({_id: carts.products[i]._id})
+        for(let i = 0; i < carts.products.length; i++){
+            let product = carts.products[i]["product"]
             if(product.stock >= carts.products[i].quantity){
                 amount += carts.products[i].quantity*product.price
                 product.stock -= carts.products[i].quantity

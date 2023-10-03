@@ -21,6 +21,9 @@ export default class UserController {
         else if (user.role == "premium") {
             user.role = "user"
         }
+        else if (user.role == "admin"){
+            return res.status(400).send({ status: "error", error: "No se puede actualizar el rol de un usuario admininistrador" })
+        }
         await userService.updateUser(user._id, { role: user.role })
         res.send({ status: "success", message: "Usuario actualizado correctamente" })
     }
@@ -73,6 +76,18 @@ export default class UserController {
         };
         res.send({ status: "success", message: "usuarios inactivos eliminados"})
     }
+
+    deleteUser = async (req, res) => {
+        const { uid } = req.params;
+        const user = await userService.getUserBy({ _id: uid });
+        if (user.role == "admin"){
+            return res.status(400).send({ status: "error", error: "No se puede eliminar a un usuario administrador" })
+        }
+        await userService.deleteUser(uid);
+        res.send({ status: "success", message: "usuario eliminado"})
+    }
+
+
 }
 
 

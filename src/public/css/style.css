@@ -376,4 +376,41 @@ h1 {
     cursor:pointer;
 }
 
+.buttonlogout{
+  display:flex;
+  margin-top:20px;
+}
 
+
+.buttonlogout button:nth-child(1){
+  width:100px;
+  height:40px;
+  margin-right:10px;
+  border:none;
+  background-color:#fff;
+  border:2px solid blue;
+  border-radius:4px;
+  color:blue;
+  cursor:pointer;
+  transition:all 0.5s;
+}
+
+
+.buttoncart{
+  display:flex;
+  margin-top:50px;
+}
+
+
+.buttoncart button:nth-child(1){
+  width:100px;
+  height:40px;
+  margin-right:10px;
+  border:none;
+  background-color:#fff;
+  border:2px solid blue;
+  border-radius:4px;
+  color:blue;
+  cursor:pointer;
+  transition:all 0.5s;
+}

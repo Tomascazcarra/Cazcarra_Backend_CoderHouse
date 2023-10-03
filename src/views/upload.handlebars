@@ -1,23 +1,38 @@
-<h1>Ingrese a la aplicacion como un usuario premium!</h1>
+<!DOCTYPE html>
+<html lang="es">
 
-<p>Envie los siguientes archivos para una verificación de usuario.</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Coderhouse</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
 
-<div>
-    <form id="uploadForm">
-        <label>¿Que documento desea cargar?</label>
-        <select id="document" name="document">
-            <option value="DNI">Identificacion</option>
-            <option value="Comprobante de domicilio">Domicilio</option>
-            <option value="Comprobante de estado">Estado de la cuenta</option>
-        </select>
-        <br>
-        <br>
-        <form action="/action_page.php">
-            <label>Suba el archivo aqui!</label>
-            <input type="file" id="file" name="filename">
-            <input type="submit">
-        </form>
-    </form>
-</div>
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <!-- Tabs Titles -->
+            <h2 class="active"> Complete los datos. </h2>
+            <!-- Login Form -->
+            <form id="registerForm">
+                <input type="text" class="fadeIn second" name="first_name" placeholder="Nombre" required>
+                <input type="text" class="fadeIn second" name="last_name" placeholder="Apellido" required>
+                <input type="text" class="fadeIn second" name="age" placeholder="Edad" required>
+                <input type="text" class="fadeIn second" name="email" placeholder="Email" required>
+                <input type="password" id="password" class="fadeIn third" name="password" placeholder="Contraseña" required>
+                <br>
+                <label>¿Que documento desea cargar?</label>
+                <select type="text" id="document" name="document" class="fadeIn second">
+                    <option class="fadeIn second" value="DNI">Identificacion</option>
+                    <option class="fadeIn second" value="Comprobante de domicilio">Domicilio</option>
+                    <option class="fadeIn second" value="Comprobante de estado">Estado de la cuenta</option>
+                    <label>Suba el archivo aqui!</label>
+                    <input type="file" id="file" class="fadeIn second" name="filename">
+                    <input type="submit" class="fadeIn second">
+            </form>
+        </div>
+    </div>
+    <script src="js/upload.js"></script>
+</body>
 
-<script src="js/upload.js"></script>
+</html>

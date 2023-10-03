@@ -74,9 +74,9 @@ app.use((req,res,next)=>{
     req.io = io;
     next();
 })
+app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-app.use(express.static(`${__dirname}/public`));
 app.use("/log", logRoutes);
 app.use("/api/products", productsRoutesMongo);
 app.use("/api/carts", cartsRoutesMongo);

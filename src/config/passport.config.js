@@ -39,6 +39,7 @@ const initializePassport = () => {
     }))
 
     passport.use("login", new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
+        console.log(email, password)
         if (email === config.auth.ADMIN_EMAIL && password === config.auth.ADMIN_PASSWORD) {
             const user = {
                 name: `Admin`,

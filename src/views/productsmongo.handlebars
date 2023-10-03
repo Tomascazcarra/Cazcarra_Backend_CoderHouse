@@ -1,48 +1,58 @@
-<div>
-    <h1>Bienvenido, {{user.name}}.</h1>
-    <h2>Su rol es: {{user.role}}.</h2>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Coderhouse</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
 
 
-<div>
-    <h2>Estos son los productos registrados en MONGO</h2>
-    {{#each products}}
-    <div>
-        <p> Titulo:
-            {{this.title}}
-        </p>
-        <p> Descripcion:
-            {{this.description}}
-        </p>
-        <p> Precio:
-            {{this.price}}
-        </p>
-        <p> Stock disponible:
-            {{this.stock}}
-        </p>
-        <p> Categoria:
-            {{this.category}}
-        </p>
-        <a href="/carts"><button>agregar a carrito</button></a> 
+<body>
+    <h1 class="active"> Lista de productos. </h1>
+    <div class="caja">
+        {{#each products}}
+        <div class="card">
+            <div class="details">
+                <p> Titulo:
+                    {{this.title}}
+                </p>
+                <p> Descripcion:
+                    {{this.description}}
+                </p>
+                <div class="pricing">
+                    <p> Precio:
+                        {{this.price}}
+                    </p>
+                </div>
+                <p> Stock disponible:
+                    {{this.stock}}
+                </p>
+                <p> Categoria:
+                    {{this.category}}
+                </p>
+                <a href="/carts" class="buttons"><button>agregar a carrito</button></a>
+            </div>
+        </div>
+        {{/each}}
     </div>
-    <br>
-    {{/each}}
-    <br>
-    <div>
-    {{#if hasPrevPage}}
-        <a href="/products?page={{prevPage}}"><button>Anterior</button></a>
-    {{/if}}
-
-    {{page}}
-
-    {{#if hasNextPage}}
-        <a href="/products?page={{nextPage}}"><button>Siguiente</button></a>
-    {{/if}}
+    <div class="footer">
+        <div>
+            {{#if hasPrevPage}}
+            <a href="/products?page={{prevPage}}" class="button"><button>Anterior</button></a>
+            {{/if}}
+            {{page}}
+            {{#if hasNextPage}}
+            <a href="/products?page={{nextPage}}" class="button"><button>Siguiente</button></a>
+            {{/if}}
+        </div>
     </div>
-    <br>
     <div>
-        <button id="boton_logout">Logout</button>
+        <button class="button" id="boton_logout">Logout</button>
     </div>
-</div>
 
-<script src="js/product.js"></script>
+    <script src="/js/product.js"></script>
+</body>
+
+</html>

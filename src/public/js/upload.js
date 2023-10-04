@@ -1,19 +1,19 @@
-const form = document.getElementById("uploadForm")
+const form = document.getElementById("button_premium")
 
-form.addEventListener("submit", async (event) => {
+form.addEventListener("click", async (event) => {
     event.preventDefault();
-    const data = new FormData(form);
-    const obj = {};
-    data.forEach((value, key) => (obj[key] = value));
-    const response = await fetch("/api/users/:uid/documents", {
-        method: "POST",
-        body: JSON.stringify(obj),
+    const userId = document.getElementById("userId").value;
+    const response = await fetch(`/api/users/premium/${userId}`, {
+        method: 'PUT',
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
         }
     })
     const responseData = await response.json();
     if (responseData.status === "success") {
-        window.location.replace("/products")
+        alert("Rol actualizado correctamente!")
+    }
+    else{
+        alert("Atención: Todavía faltan documentos por cargar para actualizar su rol a premium.")
     }
 })

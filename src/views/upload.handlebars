@@ -11,27 +11,24 @@
 <body>
     <div class="wrapper fadeInDown">
         <div id="formContent">
-            <h2 class="active"> Complete los datos. </h2>
-            <form id="registerForm">
-                <input type="text" class="fadeIn second" name="first_name" placeholder="Nombre" required>
-                <input type="text" class="fadeIn second" name="last_name" placeholder="Apellido" required>
-                <input type="text" class="fadeIn second" name="age" placeholder="Edad" required>
-                <input type="text" class="fadeIn second" name="email" placeholder="Email" required>
-                <input type="password" id="password" class="fadeIn third" name="password" placeholder="Contraseña"
-                    required>
-                <br>
+            <form id="uploadForm" enctype="multipart/form-data" action="/api/users/{{userId}}/documents" method="POST">
                 <label>¿Que documento desea cargar?</label>
-                <select type="text" id="document" name="document" class="fadeIn second">
+                <br>
+                <select type="text" id="documentName" name="documentName" class="fadeIn second">
                     <option class="fadeIn second" value="DNI">Identificacion</option>
                     <option class="fadeIn second" value="Comprobante de domicilio">Domicilio</option>
                     <option class="fadeIn second" value="Comprobante de estado">Estado de la cuenta</option>
-                    <label>Suba el archivo aqui!</label>
-                    <input type="file" id="file" class="fadeIn second" name="filename">
-                    <input type="submit" class="fadeIn second">
+                </select>
+                <label>Suba el archivo aqui!</label>
+                <input type="file" id="files" class="fadeIn second" name="files">
+                <input type="hidden" id="filetype" name="filetype" value="document">
+                <input type="hidden" id="userId" value="{{userId}}">
+                <input type="submit" class="fadeIn second">
             </form>
+            <label>¿Ya cargó todos sus documentos? Haga click aqui</label>
+            <a class="button"><button id="button_premium">Pasar a premium</button></a>
         </div>
     </div>
-    <script src="js/upload.js"></script>
+<script src="/js/upload.js"></script>
 </body>
-
 </html>

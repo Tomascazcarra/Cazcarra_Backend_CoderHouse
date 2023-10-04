@@ -28,7 +28,7 @@ router.get("/restoreRequest", privacy("NO_AUTHENTICATED"), viewsController.resto
 
 router.get("/restorePassword", privacy("NO_AUTHENTICATED"), viewsController.restorePassword)
 
-router.get("/premiumLogin", privacy("NO_AUTHENTICATED"), viewsController.premiumLogin)
+router.get("/premiumUpload", privacy("PRIVATE"), viewsController.premiumUpload)
 
 router.get("/deleteUsers", privacy("PRIVATE"), allowRoles(["admin"]), viewsController.deleteUsers)
 

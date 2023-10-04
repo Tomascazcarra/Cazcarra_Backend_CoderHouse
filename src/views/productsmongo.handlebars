@@ -10,8 +10,10 @@
 
 <body>
     <h1 class="active"> Lista de productos. </h1>
-
-    <a href="/carts/{{cartId}}" class="buttoncart"><button>Mi carrito</button></a>
+    <div style="display:flex;">
+        <a href="/carts/{{cartId}}" class="buttoncart"><button>Mi carrito</button></a>
+        <a href="/premiumUpload" class="buttoncart"><button>Pasar a premium</button></a>
+    </div>
     <div class="caja">
         {{#each products}}
         <div class="card">

@@ -65,8 +65,8 @@ export default class ViewsController {
         }
     }
 
-    premiumLogin = async (req, res) => {
-        return res.render("upload")
+    premiumUpload = async (req, res) => {
+        return res.render("upload", {userId: req.session.user.id})
     }
 
     deleteUsers = async (req, res) => {

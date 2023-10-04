@@ -36,7 +36,6 @@ export default class UserController {
         const files = req.files.map((obj) => obj.path);
         if (filetype == "document" && documentName != null) {
             for (let f of files) {
-                console.log(f)
                 user.documents.push({ name: documentName, reference: f })
             }
             await userService.updateUser(uid, user)

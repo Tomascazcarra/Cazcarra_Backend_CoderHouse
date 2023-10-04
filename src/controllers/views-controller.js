@@ -52,7 +52,7 @@ export default class ViewsController {
     }
 
     restoreRequest = async (req, res) => {
-        res.render("restoreRequest")
+        res.render("restorerequest")
     }
 
     restorePassword = async (req, res) => {
